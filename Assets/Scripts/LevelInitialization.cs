@@ -19,6 +19,7 @@ namespace MonsterClicker
             camera.nearClipPlane = 0.01f;
             camera.farClipPlane = 100;
             camera.transform.localPosition = new Vector3(0, 0, -50);
+            GameObject.Instantiate(gameData.GameBorders, Vector3.zero, Quaternion.Euler(0, 45, 0));
         }
     }
 }

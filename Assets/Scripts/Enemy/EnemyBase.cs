@@ -1,21 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace MonsterClicker
 {
     internal abstract class EnemyBase : MonoBehaviour
     {
-        public TapCount TapCounts { get; private set; }
+        public Action OnTapReturnToPool;
 
-        public static EnemyBase CreateEnemy (TapCount tapCount, GameData data, int enemyIndex, TapCount count)
+        public virtual void ReturnToPool(Transform transform)
         {
-
-            var gameObject = Instantiate(data.enemyPrefabList[enemyIndex], Vector3.zero, Quaternion.identity);
-
-            var enemy = gameObject.GetComponent<EnemyBase>();
-            enemy.TapCounts = count;
-
-            return enemy;
+            OnTapReturnToPool?.Invoke();
         }
-
     }
 }

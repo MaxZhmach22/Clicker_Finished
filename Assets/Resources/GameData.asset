@@ -12,7 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62243ffcbe3bea94b878c52cca2b1e2a, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 8779992489374834772, guid: d485ed03f9e93494cb9d2565cbf068ef, type: 3}
+  _playerSpeed: 5
   planeSize: {x: 10, y: 1, z: 10}
+  _levelBoundaries: {x: 10, y: 10}
   planeMaterial: {fileID: 2100000, guid: 8aeb1972550555b4683502cd9a5597dd, type: 2}
   enemyPrefabList:
   - {fileID: 4624612444289824964, guid: 805ca632027d28c48ad81522e9780825, type: 3}
+  - {fileID: 6097561589445797601, guid: 0d99753a1acd3024e8243963ec30ca8b, type: 3}
+  - {fileID: 6032894304788658943, guid: 8f159f6873d5b7c468d49cf8693890b4, type: 3}
+  _maxTimeValue: 1
+  _minTimerValue: 1.5
+  _timeBetweenSpawn: 0.002
+  _gameBorders: {fileID: 7235696938171911349, guid: 438db7f0d725f2f4e9b2e2c98e61a258, type: 3}
+  _soundOffSprite: {fileID: 21300000, guid: 27ddafcc8a2bf824d9afbb2df0aab9e4, type: 3}
+  _soundOnSprite: {fileID: 21300000, guid: ed1c5871faa956e479d44a97cdfd835f, type: 3}
+  _onCLickSound: {fileID: 8300000, guid: 66dc594fbb4ec6a43a9691e078af583a, type: 3}
+  _onStartBntSound: {fileID: 8300000, guid: 496f40787dd641649893fbd7727bfe49, type: 3}
+  _backGroundMusic: {fileID: 8300000, guid: 534061783f36bb44e830cee14d60e1cd, type: 3}

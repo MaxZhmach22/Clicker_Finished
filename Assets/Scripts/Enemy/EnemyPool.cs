@@ -33,6 +33,12 @@ namespace MonsterClicker
                 case "EasyEnemy":
                     result = GetEnemy(GetListEnemies(type), 0);
                     break;
+                case "MiddleEnemy":
+                    result = GetEnemy(GetListEnemies(type), 1);
+                    break;
+                case "HardEnemy":
+                    result = GetEnemy(GetListEnemies(type), 2);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, "Не предусмотрен в программе");
             }
@@ -45,21 +51,22 @@ namespace MonsterClicker
             return _enemyPool.ContainsKey(type) ? _enemyPool[type] : _enemyPool[type] = new HashSet<EnemyBase>();
         }
 
-        private EnemyBase GetEnemy(HashSet<EnemyBase> enemies, int indexInEnemyList)
+        private EnemyBase GetEnemy(HashSet<EnemyBase> enemies, int indexInEnemyPrefabList)
         {
             var enemy = enemies.FirstOrDefault(a => !a.gameObject.activeSelf);
             if (enemy == null)
             {
                 for (var i = 0; i < _capacityPool; i++)
                 {
-                    var enemyObj = GameObject.Instantiate(_gameData.enemyPrefabList[indexInEnemyList]);
-                    var eneyBaseScript = enemyObj.GetComponent<EnemyBase>();
+                    var enemyObj = GameObject.Instantiate(_gameData.enemyPrefabList[indexInEnemyPrefabList]);
+                    var enemyBaseScript = enemyObj.GetComponent<EnemyBase>();
                     ReturnToPool(enemyObj.transform);
-                    enemies.Add(eneyBaseScript);
+                    enemies.Add(enemyBaseScript);
                 }
                 GetEnemy(enemies, 0);
             }
             enemy = enemies.FirstOrDefault(a => !a.gameObject.activeSelf);
+           
             return enemy;
         }
 

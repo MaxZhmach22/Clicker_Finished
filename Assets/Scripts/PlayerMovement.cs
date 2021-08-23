@@ -1,57 +1,50 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace MonsterClicker
 {
-    [SerializeField] private float _movementSpeed = 4f;
-    private FloatingJoystick _joystick;
-    private Vector3 _boundaries;
-    private Vector3 _forward, _right;
-
-    void Start()
+    internal sealed class PlayerMovement : IExecute
     {
-        _joystick = FindObjectOfType<FloatingJoystick>();
-        
-        _forward = Camera.main.transform.forward;
-        _forward.y = 0;
-        _forward = Vector3.Normalize(_forward);
-        _right = Quaternion.Euler(new Vector3(0, 90, 0)) * _forward;
-    }
+        [SerializeField] private float _movementSpeed = 4f;
+        private FloatingJoystick _joystick;
+        private Vector3 _forward, _right;
+        private Transform _player;
 
-    public void SetBoundaries(Vector3 screenBoundaries)
-    {
-        _boundaries = screenBoundaries;
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if(Math.Abs(_joystick.Vertical + _joystick.Horizontal) > 0)
+        public PlayerMovement(Transform player, Camera main)
         {
-            Move();
+            _joystick = GameObject.FindObjectOfType<FloatingJoystick>();
+            _player = player;
+            _forward = main.transform.forward;
+            _forward.y = 0;
+            _forward = Vector3.Normalize(_forward);
+            _right = Quaternion.Euler(new Vector3(0, 90, 0)) * _forward;
         }
-        
-        //if (_joystick.Horizontal > _joystick.DeadZone || _joystick.Vertical > _joystick.DeadZone)
-        //{
-           
-        //}
+        public void Execute(float deltaTime)
+        {
+            if (Math.Abs(_joystick.Vertical + _joystick.Horizontal) > 0)
+            {
+                Move(deltaTime);
+            }
+        }
+
+        private void Move(float deltaTime)
+        {
+
+            Vector3 direction = new Vector3((_joystick.Horizontal), 0, (_joystick.Vertical));
+            Vector3 rigthMovement = _right * _movementSpeed * Time.deltaTime * _joystick.Horizontal;
+            Vector3 upMovement = _forward * _movementSpeed * Time.deltaTime * _joystick.Vertical;
+            Vector3 heading = Vector3.Normalize(rigthMovement + upMovement);
+
+            _player.transform.forward = heading;
+            _player.transform.position += rigthMovement;
+            _player.transform.position += upMovement;
+            
+        }
+
+        public Vector3 PlayerPosition()
+        {
+            return _player.transform.position;
+        }
+
     }
-
-    private void Move()
-    {
-        float screenBounds = transform.position.x + transform.position.z;
-        Vector3 direction = new Vector3((_joystick.Horizontal), 0, (_joystick.Vertical));
-        Vector3 rigthMovement = _right * _movementSpeed * Time.deltaTime * _joystick.Horizontal;
-        Vector3 upMovement = _forward * _movementSpeed * Time.deltaTime * _joystick.Vertical;
-        Vector3 heading = Vector3.Normalize(rigthMovement + upMovement);
-
-        transform.forward = heading;
-        transform.position += rigthMovement;
-        transform.position += upMovement;
-
-    }
-
-}   
+}

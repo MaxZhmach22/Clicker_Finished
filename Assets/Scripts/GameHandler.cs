@@ -7,31 +7,24 @@ namespace MonsterClicker
     internal sealed class GameHandler : MonoBehaviour
     {
         private Camera _mainCamera;
-        private PlayerMovement _playerMovement;
         private GameData _gameData;
-        private EnemyPool _easyEnemyPool;
-        private EnemiesController _enemyController;
-        private List<EnemyPool> _enemyPools = new List<EnemyPool>();
+        private ExecuteController _executeController;
+       
 
         void Start()
         {
             _gameData = Resources.Load<GameData>("GameData");
             _mainCamera = Camera.main;
-            new GameInitializaton(_gameData, _mainCamera);
-            _easyEnemyPool = new EnemyPool(15, _gameData);
-            _enemyPools.Add(_easyEnemyPool);
-            _enemyController = new EnemiesController(_enemyPools);
-            var enemy = _easyEnemyPool.GetEnemy("EasyEnemy");
-            enemy.gameObject.SetActive(true);
-            enemy.transform.position = new Vector3(5, 1, 5);
-            _playerMovement = FindObjectOfType<PlayerMovement>();
-
+            _executeController = new ExecuteController();
+            new GameInitializaton(_executeController,_gameData, _mainCamera);
+            
         }
 
        
         void Update()
         {
-
+            var deltaTime = Time.deltaTime;
+            _executeController.Execute(deltaTime);
         }
     }
 }
