@@ -50,9 +50,9 @@ namespace MonsterClicker
                     {
                         _score._bestScoreList.Sort();
                         _score._bestScoreList.Reverse();
-                        if (_score._bestScoreList.Count >= 7)
+                        if (_score._bestScoreList.Count >= 6)
                         {
-                            _score._bestScoreList.RemoveRange(6, _score._bestScoreList.Count);
+                            _score._bestScoreList.Remove(_score._bestScoreList.Count-1);
                         }
                     }
 
