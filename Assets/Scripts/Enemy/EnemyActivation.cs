@@ -53,15 +53,12 @@ namespace MonsterClicker
                 }
             }
         }
-        public void ChangeRandomTimeBetweenTaps(bool isTaped)
+        public void ChangeRandomTimeBetweenTaps(int tapInt)
         {
-            if (isTaped)
-            {
- 
-                _decreaseTimeBetweenSpawn += _gameData.TimeBetweenSpawn;
-                _randomTimeBetweenTap = UnityEngine.Random.Range(_gameData.MinTimerValue, _gameData.MaxTimerValue);
-                _randomTimeBetweenTap -= _decreaseTimeBetweenSpawn;
-            }
+            _decreaseTimeBetweenSpawn += _gameData.TimeBetweenSpawn;
+            _randomTimeBetweenTap = UnityEngine.Random.Range(_gameData.MinTimerValue, _gameData.MaxTimerValue);
+            _randomTimeBetweenTap -= _decreaseTimeBetweenSpawn;
+
         }
 
         public void Activation(EnemyBase enemy)

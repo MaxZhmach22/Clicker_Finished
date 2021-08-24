@@ -30,6 +30,8 @@ namespace MonsterClicker
             _enemyActivation = new EnemyActivation(_enemyPools, _gameData, inputInit.GetPlayerPosition());
             _inputInit.TapCatch.OnEnemyTap += _enemyActivation.ChangeRandomTimeBetweenTaps;
             _enemyActivation.OnEnemyActivation += _activeEnemyCheker.AddToActiveEnemyList;
+            _inputInit.TapCatch.OnEnemyReturn += _activeEnemyCheker.RemoveFromEnemyList;
+            _activeEnemyCheker.OnGameOver += _gameData.GameOver;
             controller.Add(_enemyActivation);
         }
 
