@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace MonsterClicker
+namespace Clicker
 {
     internal sealed class EnemyPool
     {

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace MonsterClicker
+namespace Clicker
 {
     public class UIModel
     {

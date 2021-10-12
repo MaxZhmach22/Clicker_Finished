@@ -1,4 +1,4 @@
-﻿namespace MonsterClicker
+﻿namespace Clicker
 {
     public interface IExecute : IController
     {

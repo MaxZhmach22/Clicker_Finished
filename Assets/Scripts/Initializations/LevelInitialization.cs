@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     internal sealed class LevelInitialization
     {

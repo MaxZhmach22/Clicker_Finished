@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     internal static class GameTime 
     {

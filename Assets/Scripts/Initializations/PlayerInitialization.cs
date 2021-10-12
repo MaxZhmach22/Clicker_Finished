@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     internal sealed class PlayerInitialization
     {

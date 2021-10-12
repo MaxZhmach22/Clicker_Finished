@@ -1,4 +1,4 @@
-using MonsterClicker;
+using Clicker;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;

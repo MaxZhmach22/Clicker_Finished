@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     [Serializable]
     internal sealed class Score

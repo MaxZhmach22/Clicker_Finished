@@ -1,4 +1,4 @@
-﻿namespace MonsterClicker
+﻿namespace Clicker
 {
     internal interface IEnemyActivation
     {

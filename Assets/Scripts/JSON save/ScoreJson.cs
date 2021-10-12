@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     internal sealed class ScoreJson
     {

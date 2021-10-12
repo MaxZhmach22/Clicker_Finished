@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MonsterClicker
+namespace Clicker
 {
     [CreateAssetMenu(fileName = "Game Data", menuName = "Data", order = 1)]
     public sealed class GameData : ScriptableObject
