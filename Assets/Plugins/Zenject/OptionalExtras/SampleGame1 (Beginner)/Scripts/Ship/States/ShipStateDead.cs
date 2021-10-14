@@ -32,9 +32,9 @@ namespace Zenject.Asteroids
         {
             _ship.MeshRenderer.enabled = false;
 
-            _ship.ParticleEmitter.gameObject.SetActive(false);
+            _ship.ParticleEmitter.gameObject.SetActive(false);  
 
-            _explosion = _explosionFactory.Create().gameObject;
+            _explosion = _explosionFactory.Create().gameObject; //TODO!
             _explosion.transform.position = _ship.Position;
 
             _shipBroken = _brokenShipFactory.Create().gameObject;
@@ -48,7 +48,7 @@ namespace Zenject.Asteroids
                 rigidBody.AddForce(randomDir * _settings.explosionForce);
             }
 
-            _signalBus.Fire<ShipCrashedSignal>();
+            _signalBus.Fire<ShipCrashedSignal>(); //TODO Есть класс для отдельного стэйта.
         }
 
         public override void Dispose()

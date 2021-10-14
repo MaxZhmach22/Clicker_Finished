@@ -7,13 +7,13 @@ namespace Clicker
     internal sealed class EntryPoint : MonoBehaviour
     {
         private Camera _mainCamera;
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         private ExecuteController _executeController;
         private Transform _placeForUi;
         private PlayerProfile _playerProfile;
 
         [Inject]
-        public void Init(GameData gameData, Transform placeForUi, PlayerProfile playerProfile)
+        public void Init(GameSettingsInstaller gameData, Transform placeForUi, PlayerProfile playerProfile)
         {
             _gameData = gameData;
             _placeForUi = placeForUi;

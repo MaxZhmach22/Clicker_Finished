@@ -6,7 +6,7 @@ namespace Clicker
 {
     internal sealed class EnemiesController
     {
-        private GameData _gameData; 
+        private GameSettingsInstaller _gameData; 
         private EnemyActivation _enemyActivation;
         private ActiveEnemyChekcer _activeEnemyCheker;
         private EnemyPool _easyEnemyPool;
@@ -16,7 +16,7 @@ namespace Clicker
         private List<EnemyPool> _enemyPools = new List<EnemyPool>();
 
 
-        public EnemiesController(GameData gameData, ExecuteController controller, InputInitialization inputInit)
+        public EnemiesController(GameSettingsInstaller gameData, ExecuteController controller, InputInitialization inputInit)
         {
             _gameData = gameData;
             _inputInit = inputInit;

@@ -5,25 +5,26 @@ namespace Clicker
     internal class MainController : BaseController
     {
         private Transform _placeForUi;
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         private Camera _mainCamera;
         private PlayerProfile _playerProfile;
+        
 
         private MainMenuController _mainMenuController;
 
-        public MainController(Transform placeForUi, PlayerProfile playerProfile, ExecuteController controller, GameData gameData, Camera mainCamera)
+        public MainController(Transform placeForUi, PlayerProfile playerProfile, ExecuteController controller, GameSettingsInstaller gameData, Camera mainCamera)
         {
             _gameData = gameData;
             _mainCamera = mainCamera;
             _placeForUi = placeForUi;
             _playerProfile = playerProfile;
 
-            var uiController = new UIController(_gameData);
-            var playerInit = new PlayerInitialization(_gameData);
-            new LevelInitialization(_gameData, _mainCamera);
-            var inputInit = new InputInitialization(controller, playerInit.GetPlayer(), _mainCamera, _gameData);
-            new EnemiesController(_gameData, controller, inputInit);
-            inputInit.TapCatch.OnEnemyTap += uiController.ScoreJson.CurrentScore;
+            //var uiController = new UIController(_gameData);
+            //var playerInit = new PlayerInitialization(_gameData);
+            //new LevelInitialization(_gameData, _mainCamera);
+            //var inputInit = new InputInitialization(controller, playerInit.GetPlayer(), _mainCamera, _gameData);
+            //new EnemiesController(_gameData, controller, inputInit);
+            //inputInit.TapCatch.OnEnemyTap += uiController.ScoreJson.CurrentScore;
 
             OnChangeGameState(_playerProfile.CurrentGameState.Value);
             _playerProfile.CurrentGameState.SubscribeOnChange(OnChangeGameState);

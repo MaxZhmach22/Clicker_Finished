@@ -10,7 +10,7 @@ namespace Clicker
 
         public TapCatch TapCatch { get => _tapCatch; }
 
-        public InputInitialization(ExecuteController controller, Transform player, Camera main, GameData gameData)
+        public InputInitialization(ExecuteController controller, Transform player, Camera main, GameSettingsInstaller gameData)
         {
             _tapCatch = new TapCatch();
             _player = player;

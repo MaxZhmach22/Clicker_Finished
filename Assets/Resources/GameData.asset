@@ -18,9 +18,9 @@ MonoBehaviour:
   _levelBoundaries: {x: 10, y: 10}
   planeMaterial: {fileID: 2100000, guid: 8aeb1972550555b4683502cd9a5597dd, type: 2}
   enemyPrefabList:
-  - {fileID: 4624612444289824964, guid: 805ca632027d28c48ad81522e9780825, type: 3}
-  - {fileID: 6097561589445797601, guid: 0d99753a1acd3024e8243963ec30ca8b, type: 3}
-  - {fileID: 6032894304788658943, guid: 8f159f6873d5b7c468d49cf8693890b4, type: 3}
+  - {fileID: 4794112694876441102, guid: 80bfa7cb11f2b2346a8c3f724fa793b8, type: 3}
+  - {fileID: 9134907109853186632, guid: 3dc50dbb9185e1942897b5944c8da417, type: 3}
+  - {fileID: 4900483254986855285, guid: 8f42d21077be35b46854030856b7e780, type: 3}
   _maxTimeValue: 0.7
   _minTimerValue: 1.3
   _timeDecreaseBetweenSpawn: 0.002

@@ -19,7 +19,7 @@ namespace Clicker
         public Action OnClickSound;
         public Action OnStartSound;
         public Action OnShowBestScore;
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         
 
         public GameObject MainMenu { get => _mainMenu;  }
@@ -28,7 +28,7 @@ namespace Clicker
         public GameObject GameBtnMenu { get => _gameBtnMenu; }
         public GameObject LooseMenu { get => _looseMenu; }
 
-        public UIModel(GameData gameData)
+        public UIModel(GameSettingsInstaller gameData)
         {
             _gameData = gameData;
             FindReferences();

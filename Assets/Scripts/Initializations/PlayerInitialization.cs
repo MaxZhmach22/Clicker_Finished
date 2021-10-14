@@ -5,10 +5,10 @@ namespace Clicker
 {
     internal sealed class PlayerInitialization
     {
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         private Transform _player;
 
-        public PlayerInitialization(GameData gameData)
+        public PlayerInitialization(GameSettingsInstaller gameData)
         {
             _gameData = gameData;
             CreatePlayer();

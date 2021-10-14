@@ -6,7 +6,7 @@ namespace Clicker
 {
     internal sealed class EnemyActivation :  IEnemyActivation, IExecute
     {
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         private List<EnemyPool> _enemyPools;
         private float _randomTimeBetweenTap;
         private float _decreaseTimeBetweenSpawn;
@@ -16,7 +16,7 @@ namespace Clicker
 
         public Action<EnemyBase> OnEnemyActivation;
 
-        public EnemyActivation(List<EnemyPool> enemyPools, GameData gameData, Vector3 playerPosition)
+        public EnemyActivation(List<EnemyPool> enemyPools, GameSettingsInstaller gameData, Vector3 playerPosition)
         {
             _gameData = gameData;
             _enemyPools = enemyPools;

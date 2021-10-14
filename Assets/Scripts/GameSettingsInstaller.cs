@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Clicker
 {
-    [CreateAssetMenu(fileName = "Game Data", menuName = "Data", order = 1)]
-    public sealed class GameData : ScriptableObject
+    [CreateAssetMenu(fileName = nameof(GameSettingsInstaller), menuName = "GameInstaller/" + nameof(GameSettingsInstaller), order = 1)] 
+    internal sealed class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
     {
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private float _playerSpeed;
@@ -25,6 +26,7 @@ namespace Clicker
         public Action OnMuteSounds;
         public Action<bool> OnGameOver;
 
+        public AudioHandler.Settings AudioHandler;
 
         public GameObject Player { get => _playerPrefab; }
         public Material PlaneMaterial { get => planeMaterial; }
@@ -52,6 +54,9 @@ namespace Clicker
             OnGameOver?.Invoke(_isGameOver);
         }
 
-     
+        public override void InstallBindings()
+        {
+            
+        }
     }
 }

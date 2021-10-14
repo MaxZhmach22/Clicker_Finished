@@ -5,7 +5,7 @@ namespace Clicker
     internal sealed class LevelInitialization
     {
         
-        public LevelInitialization(GameData gameData, Camera camera)
+        public LevelInitialization(GameSettingsInstaller gameData, Camera camera)
         {
             var plane =  GameObject.CreatePrimitive(PrimitiveType.Plane);
             plane.transform.localScale = gameData.PlaneSize;

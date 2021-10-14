@@ -12,9 +12,9 @@ namespace Clicker
         private readonly Dictionary<string, HashSet<EnemyBase>> _enemyPool;
         private readonly int _capacityPool;
         private Transform _rootPool;
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
 
-        public EnemyPool(int capacityPool, GameData gameData)
+        public EnemyPool(int capacityPool, GameSettingsInstaller gameData)
         {
             _enemyPool = new Dictionary<string, HashSet<EnemyBase>>();
             _gameData = gameData;

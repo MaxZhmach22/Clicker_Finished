@@ -7,7 +7,7 @@ namespace Clicker
 {
     internal sealed class UIController
     {
-        private GameData _gameData;
+        private GameSettingsInstaller _gameData;
         private UIModel _uiModel;
         private UIView _uiView;
         private AudioSource _auidoSource;
@@ -15,7 +15,7 @@ namespace Clicker
 
         internal ScoreJson ScoreJson { get => _scoreJson; }
 
-        public UIController(GameData gameData)
+        public UIController(GameSettingsInstaller gameData)
         {
             _gameData = gameData;
             _scoreJson = new ScoreJson();
