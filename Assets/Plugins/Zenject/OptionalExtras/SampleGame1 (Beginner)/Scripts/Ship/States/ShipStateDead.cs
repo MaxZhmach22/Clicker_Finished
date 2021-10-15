@@ -41,7 +41,7 @@ namespace Zenject.Asteroids
             _shipBroken.transform.position = _ship.Position;
             _shipBroken.transform.rotation = _ship.Rotation;
 
-            foreach (var rigidBody in _shipBroken.GetComponentsInChildren<Rigidbody>())
+            foreach (var rigidBody in _shipBroken.GetComponentsInChildren<Rigidbody>()) //TODO синтаксис на заметку! Метод раскидывает все дочерние обломки в разные стороны.
             {
                 var randomTheta = Random.Range(0, Mathf.PI * 2.0f);
                 var randomDir = new Vector3(Mathf.Cos(randomTheta), Mathf.Sin(randomTheta), 0);

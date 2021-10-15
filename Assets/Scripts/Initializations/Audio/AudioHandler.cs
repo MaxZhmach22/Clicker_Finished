@@ -37,7 +37,7 @@ namespace Clicker
 
         void OnClickButton()
         {
-            _audioSource.PlayOneShot(_settings.CLickButtonSound);
+            _audioSource.PlayOneShot(_settings.ClickButtonSound);
         }
 
         void OnStartApp()
@@ -48,7 +48,7 @@ namespace Clicker
         [Serializable]
         public class Settings
         {
-            public AudioClip CLickButtonSound;
+            public AudioClip ClickButtonSound;
             public AudioClip StartButtonSound;
             public AudioClip BackGroundMusic;
         }

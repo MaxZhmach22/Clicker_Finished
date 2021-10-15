@@ -2,7 +2,7 @@ using ModestTree;
 
 namespace Zenject.Asteroids
 {
-    public enum ShipStates
+    public enum ShipStates // TODO FactoryState: 3) Перечесление состояний.
     {
         Moving,
         Dead,
@@ -10,7 +10,10 @@ namespace Zenject.Asteroids
         Count
     }
 
-    public class ShipStateFactory
+    public class ShipStateFactory // TODO FactoryState: 1) Делаем класс фабрик состояний. Все фабрики наследуют класс ShipState.
+                                  // ShipState это абстракный класс реализующий интерфейс IDisposable. У класса есть виртуальные методы
+                                  // Start, Dispose, OnTriggerEnter, и абстрактный Update;
+                                  
     {
         readonly ShipStateWaitingToStart.Factory _waitingFactory;
         readonly ShipStateMoving.Factory _movingFactory;
@@ -26,7 +29,7 @@ namespace Zenject.Asteroids
             _deadFactory = deadFactory;
         }
 
-        public ShipState CreateState(ShipStates state)
+        public ShipState CreateState(ShipStates state)  // TODO FactoryState: 2) Делаем метод принимающий состояния.
         {
             switch (state)
             {
@@ -44,7 +47,7 @@ namespace Zenject.Asteroids
                 }
             }
 
-            throw Assert.CreateException();
+            throw Assert.CreateException(); //TODO ??
         }
     }
 }

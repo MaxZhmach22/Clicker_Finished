@@ -27,6 +27,7 @@ namespace Clicker
         public Action<bool> OnGameOver;
 
         public AudioHandler.Settings AudioHandler;
+        public GameInstaller.Settings GameInstallerSettings;
 
         public GameObject Player { get => _playerPrefab; }
         public Material PlaneMaterial { get => planeMaterial; }
@@ -56,7 +57,7 @@ namespace Clicker
 
         public override void InstallBindings()
         {
-            
+            Container.BindInstance(GameInstallerSettings);
         }
     }
 }

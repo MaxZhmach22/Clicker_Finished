@@ -1,6 +1,6 @@
 ﻿namespace Clicker
 {
-    internal enum GameState
+    internal enum GameStates
     {
         None,
         Start,

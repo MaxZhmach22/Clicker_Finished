@@ -8,16 +8,19 @@ namespace Clicker
         private GameSettingsInstaller _gameData;
         private Camera _mainCamera;
         private PlayerProfile _playerProfile;
-        
+        private UiFactories _uiFactories;
+
 
         private MainMenuController _mainMenuController;
 
-        public MainController(Transform placeForUi, PlayerProfile playerProfile, ExecuteController controller, GameSettingsInstaller gameData, Camera mainCamera)
+
+        public MainController(UiFactories uiFactories /*Transform placeForUi, PlayerProfile playerProfile, ExecuteController controller, GameSettingsInstaller gameData, Camera mainCamera*/)
         {
-            _gameData = gameData;
-            _mainCamera = mainCamera;
-            _placeForUi = placeForUi;
-            _playerProfile = playerProfile;
+            _uiFactories = uiFactories;
+            //_gameData = gameData;
+            //_mainCamera = mainCamera;
+            //_placeForUi = placeForUi;
+            //_playerProfile = playerProfile;
 
             //var uiController = new UIController(_gameData);
             //var playerInit = new PlayerInitialization(_gameData);
@@ -26,8 +29,8 @@ namespace Clicker
             //new EnemiesController(_gameData, controller, inputInit);
             //inputInit.TapCatch.OnEnemyTap += uiController.ScoreJson.CurrentScore;
 
-            OnChangeGameState(_playerProfile.CurrentGameState.Value);
-            _playerProfile.CurrentGameState.SubscribeOnChange(OnChangeGameState);
+            //OnChangeGameState(_playerProfile.CurrentGameState.Value);
+            //_playerProfile.CurrentGameState.SubscribeOnChange(OnChangeGameState);
 
         }
 
@@ -37,22 +40,21 @@ namespace Clicker
             _playerProfile.CurrentGameState.UnSubscribeOnChange(OnChangeGameState);
         }
 
-        private void  OnChangeGameState(GameState gameState)
+        private void  OnChangeGameState(GameStates gameState)
         {
             switch (gameState)
             {
-                case GameState.None:
+                case GameStates.None:
                     DisposeControllers();
                     break;
-                case GameState.Start:
-                    _mainMenuController = new MainMenuController(_placeForUi, _gameData);
+                case GameStates.Start:
                     break;
-                case GameState.Settings:
+                case GameStates.Settings:
                     //_settingsController = new SettingsController();
                     break;
-                case GameState.Credits:
+                case GameStates.Credits:
                     break;
-                case GameState.Game:
+                case GameStates.Game:
                     break;
             }
         }

@@ -1,21 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Zenject;
 
 namespace Clicker
 {
-    internal class MainMenuController
+    internal class MainMenuController : BaseUiController
     {
-        private readonly Transform _placeForUi;
-        private readonly GameSettingsInstaller _gameData;
-        private readonly MainMenuView _mainMenuView;
-        
 
-        public MainMenuController(Transform placeForUi, GameSettingsInstaller gameData, MainMenuView mainMenuView)
+        private readonly MainMenuView.Factory _mainMenuViewFactory;
+        private MainMenuView _mainMenuView;
+
+        public MainMenuController(MainMenuView.Factory mainMenuViewFactory)
         {
-            _placeForUi = placeForUi;
-            _gameData = gameData;
-            _mainMenuView = mainMenuView;
-            GameObject.Instantiate<MainMenuView>(_mainMenuView, placeForUi.position, Quaternion.identity);
+            _mainMenuViewFactory = mainMenuViewFactory;
+        }
+
+        public override void Start()
+        {
+            _mainMenuView = _mainMenuViewFactory.Create();
+            AddGameObject(_mainMenuView.gameObject);
+        }
+
+        public class Factory : PlaceholderFactory<MainMenuController>
+        {
         }
     }
 }

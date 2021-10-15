@@ -2,11 +2,11 @@
 {
     internal sealed class PlayerProfile
     {
-        public SubscriptionProperty<GameState> CurrentGameState;
+        public SubscriptionProperty<GameStates> CurrentGameState;
 
         public PlayerProfile()
         {
-            CurrentGameState = new SubscriptionProperty<GameState>(GameState.Start);
+            CurrentGameState = new SubscriptionProperty<GameStates>(GameStates.Start);
 
         }
 

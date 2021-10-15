@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03ea95af2e9cda4db92ba0cbc9d69cf, type: 3}
+  m_Name: GameSettingsInstaller
+  m_EditorClassIdentifier: 
+  _playerPrefab: {fileID: 0}
+  _playerSpeed: 0
+  planeSize: {x: 0, y: 0, z: 0}
+  _levelBoundaries: {x: 0, y: 0}
+  planeMaterial: {fileID: 0}
+  enemyPrefabList: []
+  _maxTimeValue: 0
+  _minTimerValue: 0
+  _timeDecreaseBetweenSpawn: 0
+  _gameBorders: {fileID: 0}
+  _onCLickSound: {fileID: 0}
+  _onStartBntSound: {fileID: 0}
+  _backGroundMusic: {fileID: 0}
+  _soundsOn: 1
+  AudioHandler:
+    ClickButtonSound: {fileID: 0}
+    StartButtonSound: {fileID: 0}
+    BackGroundMusic: {fileID: 0}
+  GameInstallerSettings:
+    Player: {fileID: 0}
+    Apple: {fileID: 0}
+    Apricot: {fileID: 0}
+    Banana: {fileID: 0}
+    Coconut: {fileID: 0}
+    Lemon: {fileID: 0}
+    Melon: {fileID: 0}
+    Orange: {fileID: 0}
+    Peach: {fileID: 0}
+    Pear: {fileID: 0}
+    Strawberry: {fileID: 0}
+    MainMenuView: {fileID: 2964863718624741351, guid: e377e6f85e2cb3741bd1f24c453129d7, type: 3}

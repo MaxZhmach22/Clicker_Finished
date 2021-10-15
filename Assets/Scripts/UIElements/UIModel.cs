@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace Clicker
 {
-    public class UIModel
+    internal class UIModel
     {
         private GameObject _mainMenu;
         private GameObject _creditsMenu;

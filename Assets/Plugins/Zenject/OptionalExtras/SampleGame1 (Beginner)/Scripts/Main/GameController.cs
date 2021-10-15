@@ -120,7 +120,7 @@ namespace Zenject.Asteroids
             _ship.Position = Vector3.zero;
             _elapsedTime = 0;
             _asteroidSpawner.Start();
-            _ship.ChangeState(ShipStates.Moving);
+            _ship.ChangeState(ShipStates.Moving); // TODO FactoryState: 6) Класс GameController меняет состояние на старт игры
             _state = GameStates.Playing;
         }
     }

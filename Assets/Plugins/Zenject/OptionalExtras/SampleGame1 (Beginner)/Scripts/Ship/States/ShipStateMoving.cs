@@ -89,7 +89,7 @@ namespace Zenject.Asteroids
         public override void OnTriggerEnter(Collider other)
         {
             Assert.That(other.GetComponent<Asteroid>() != null);
-            _ship.ChangeState(ShipStates.Dead);
+            _ship.ChangeState(ShipStates.Dead); // TODO FactoryState: 7) Класс ShipStateMoving отслеживает столкновение и меняет состояние на Dead
         }
 
         [Serializable]
