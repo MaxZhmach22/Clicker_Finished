@@ -24,6 +24,8 @@ namespace Clicker
             _isDisposed = true;
         }
 
+        public abstract void Start();
+
         private void DisposeBaseControllers()
         {
             if (_baseControllers == null)

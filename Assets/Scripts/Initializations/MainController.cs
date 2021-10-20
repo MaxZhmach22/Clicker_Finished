@@ -63,5 +63,10 @@ namespace Clicker
         {
           
         }
+
+        public override void Start()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

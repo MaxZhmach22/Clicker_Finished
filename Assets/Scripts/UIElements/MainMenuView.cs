@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class MainMenuView : MonoBehaviour
+namespace Clicker
 {
-
-   
-    public class Factory : PlaceholderFactory<MainMenuView>
+    public sealed class MainMenuView : MonoBehaviour
     {
-    }
+        [field: SerializeField] public Button CreditsBtn { get; private set; }
+        [field: SerializeField] public Button StartGameBtn { get; private set; }
 
+
+        public sealed class Factory : PlaceholderFactory<MainMenuView>
+        {
+        }
+
+    }
 }
