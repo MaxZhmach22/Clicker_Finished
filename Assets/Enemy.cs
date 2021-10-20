@@ -6,20 +6,22 @@ namespace Clicker
 {
     public class Enemy : MonoBehaviour, IEnemy
     {
+        [SerializeField] private GameObject _explosionPrefab;
         public float CurrentHp { get; set; } = 100;
 
         public float MaxHp => 200;
-
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
+        bool IsDead = false;
+        
         void Update()
         {
+            if (CurrentHp <= 0 && !IsDead)
+            {
+                Instantiate(_explosionPrefab, gameObject.transform.position, Quaternion.identity);
+                IsDead = true;
+                gameObject.SetActive(false);
+            }
 
+                
         }
 
     }

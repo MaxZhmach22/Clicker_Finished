@@ -1,4 +1,6 @@
-﻿namespace Clicker
+﻿using UnityEngine;
+
+namespace Clicker
 {
     internal interface IEnemy
     {

@@ -19,6 +19,7 @@ namespace Clicker
             //Container.Bind<GameSettingsInstaller>().FromInstance(_gameData);
             //Container.Bind<Transform>().FromInstance(_placeForUi);
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemyModelTest>();
+            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<ShootingController>();
             Container.Bind<EnemyModelTest>().AsSingle().NonLazy();
             InstalGameStateFactories();
 
@@ -44,6 +45,11 @@ namespace Clicker
                 FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
             Container.BindFactory<GameLevelView, GameLevelView.Factory>().
                FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform);
+            Container.BindFactory<ShootingController, ShootingController.Factory>().WhenInjectedInto<MainGameController>();
+            Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>().
+               FromComponentInNewPrefab(_settings.ShootingLineRendererView).UnderTransform(new GameObject("Shooting").transform);
+            Container.BindFactory<ImpactEffectView, ImpactEffectView.Factory>().
+               FromComponentInNewPrefab(_settings.ImpactEffectView).UnderTransform(new GameObject("Shooting").transform);
         }
 
         [Serializable]
@@ -68,8 +74,13 @@ namespace Clicker
             public MainMenuView MainMenuView;
             public CreditsMenuView CreditsMenuView;
             public GameUiView GameUiView;
+
             [Header("Level Prefab")]
             public GameLevelView GameLevelView;
+
+            [Header("Shooting LineRenderer")]
+            public ShootingLineRendererView ShootingLineRendererView;
+            public ImpactEffectView ImpactEffectView;
         } 
     }
 }

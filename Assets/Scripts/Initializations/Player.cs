@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Zenject;
+using UniRx;
 
 namespace Clicker
 {
@@ -7,16 +8,23 @@ namespace Clicker
     {
         GameState _state;
         GameStateFactory _gameStateFactory;
+        private InputTouchPresenter _inputTouchPresenter;
 
         [Inject]
         public void Init(GameStateFactory gameStateFactory)
         {
             _gameStateFactory = gameStateFactory;
+           
         }
 
         public void Start()
         {
-            ChangeState(GameStates.Start);
+            ChangeState(GameStates.Game);
+            //_inputTouchPresenter.Enemy.Subscribe(enemy =>
+            //{
+            //    if (enemy != null)
+            //        ShootAnimation(enemy);
+            //});
         }
 
         public void ChangeState(GameStates state) 
@@ -35,5 +43,12 @@ namespace Clicker
         {
             public GameObject PlayersPrefab;
         }
+
+        private void ShootAnimation(IEnemy enemy)
+        {
+            
+        }
+
+
     }
 }
