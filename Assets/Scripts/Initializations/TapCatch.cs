@@ -52,7 +52,7 @@ namespace Clicker
                 {
                     if (enemy != null)
                     {
-                        enemy.ReturnToPool(enemy.transform);
+                        //enemy.ReturnToPool(enemy.transform);
                         OnEnemyReturn?.Invoke(enemy);
                         OnEnemyTap?.Invoke(tapInt);
                     }

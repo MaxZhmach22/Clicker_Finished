@@ -18,9 +18,8 @@ namespace Clicker
         {
             //Container.Bind<GameSettingsInstaller>().FromInstance(_gameData);
             //Container.Bind<Transform>().FromInstance(_placeForUi);
-            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemyModelTest>();
+            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemiesController>();
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<ShootingController>();
-            Container.Bind<EnemyModelTest>().AsSingle().NonLazy();
             InstalGameStateFactories();
 
         }
@@ -41,10 +40,14 @@ namespace Clicker
 
             Container.BindFactory<GameGameState, GameGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainGameController, MainGameController.Factory>().WhenInjectedInto<GameGameState>();
+            Container.Bind<EnemiesController>().AsSingle();
+            Container.BindFactory<GameUiController, GameUiController.Factory>().WhenInjectedInto<MainGameController>();
+           
             Container.BindFactory<GameUiView, GameUiView.Factory>().
                 FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
             Container.BindFactory<GameLevelView, GameLevelView.Factory>().
                FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform);
+
             Container.BindFactory<ShootingController, ShootingController.Factory>().WhenInjectedInto<MainGameController>();
             Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>().
                FromComponentInNewPrefab(_settings.ShootingLineRendererView).UnderTransform(new GameObject("Shooting").transform);

@@ -58,7 +58,7 @@ namespace Zenject.Asteroids
 
         public void Start()
         {
-            ChangeState(ShipStates.WaitingToStart); // TODO FactoryState: 5) ¬ момент старта игрока(Monobehaviour) мен€ем state на ожидание старта;
+            ChangeState(ShipStates.WaitingToStart);
         }
 
         public void Update()
@@ -71,7 +71,7 @@ namespace Zenject.Asteroids
             _state.OnTriggerEnter(other);
         }
 
-        public void ChangeState(ShipStates state) // TODO FactoryState: 4)  ласс player методом мен€ет состо€ние.
+        public void ChangeState(ShipStates state)
         {
             if (_state != null)
             {

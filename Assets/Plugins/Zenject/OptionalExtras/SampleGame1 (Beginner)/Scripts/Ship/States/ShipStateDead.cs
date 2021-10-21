@@ -32,23 +32,23 @@ namespace Zenject.Asteroids
         {
             _ship.MeshRenderer.enabled = false;
 
-            _ship.ParticleEmitter.gameObject.SetActive(false);  
+            _ship.ParticleEmitter.gameObject.SetActive(false);
 
-            _explosion = _explosionFactory.Create().gameObject; //TODO!
+            _explosion = _explosionFactory.Create().gameObject;
             _explosion.transform.position = _ship.Position;
 
             _shipBroken = _brokenShipFactory.Create().gameObject;
             _shipBroken.transform.position = _ship.Position;
             _shipBroken.transform.rotation = _ship.Rotation;
 
-            foreach (var rigidBody in _shipBroken.GetComponentsInChildren<Rigidbody>()) //TODO синтаксис на заметку! Метод раскидывает все дочерние обломки в разные стороны.
+            foreach (var rigidBody in _shipBroken.GetComponentsInChildren<Rigidbody>())
             {
                 var randomTheta = Random.Range(0, Mathf.PI * 2.0f);
                 var randomDir = new Vector3(Mathf.Cos(randomTheta), Mathf.Sin(randomTheta), 0);
                 rigidBody.AddForce(randomDir * _settings.explosionForce);
             }
 
-            _signalBus.Fire<ShipCrashedSignal>(); //TODO Есть класс для отдельного стэйта.
+            _signalBus.Fire<ShipCrashedSignal>();
         }
 
         public override void Dispose()

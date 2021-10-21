@@ -9,6 +9,7 @@ namespace Clicker
         GameState _state;
         GameStateFactory _gameStateFactory;
         private InputTouchPresenter _inputTouchPresenter;
+        public int Damage = 20; 
 
         [Inject]
         public void Init(GameStateFactory gameStateFactory)
