@@ -13,12 +13,14 @@ namespace Clicker
         [SerializeField] private Transform _placeForUi;
         [SerializeField] private Player _player;
         [SerializeField] private InputTouchPresenter _inputTouchPresenter;
+        [SerializeField] private Enemy _enemy; //TODO enemy
+        [SerializeField] private LevelConfig _currentLevelConfig;
 
         public override void InstallBindings()
         {
-            //Container.Bind<GameSettingsInstaller>().FromInstance(_gameData);
-            //Container.Bind<Transform>().FromInstance(_placeForUi);
+            Container.Bind<LevelConfig>().FromInstance(_currentLevelConfig).AsSingle();
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemiesController>();
+            //Container.Bind<GameLevelView>().AsSingle().WhenInjectedInto<EnemiesController>();
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<ShootingController>();
             InstalGameStateFactories();
 
@@ -40,14 +42,18 @@ namespace Clicker
 
             Container.BindFactory<GameGameState, GameGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainGameController, MainGameController.Factory>().WhenInjectedInto<GameGameState>();
-            Container.Bind<EnemiesController>().AsSingle();
+            Container.Bind<EnemiesFactory>().AsSingle();
+            Container.BindInterfacesAndSelfTo<EnemiesController>().AsSingle();
+            Container.Bind<Enemy>().FromInstance(_enemy);
+            Container.Bind<EnemyMoveModel>().AsSingle();
             Container.BindFactory<GameUiController, GameUiController.Factory>().WhenInjectedInto<MainGameController>();
            
-            Container.BindFactory<GameUiView, GameUiView.Factory>().
-                FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
-            Container.BindFactory<GameLevelView, GameLevelView.Factory>().
-               FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform);
-
+            Container.BindFactory<GameUiView, GameUiView.Factory>().FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
+            var levelView = Container.InstantiatePrefabForComponent<GameLevelView>(_settings.GameLevelView);
+            Container.Bind<GameLevelView>().FromInstance(levelView).AsSingle();
+            //var levelView = Container.BindFactory<GameLevelView, GameLevelView.Factory>().
+            //   FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform).AsSingle();
+            
             Container.BindFactory<ShootingController, ShootingController.Factory>().WhenInjectedInto<MainGameController>();
             Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>().
                FromComponentInNewPrefab(_settings.ShootingLineRendererView).UnderTransform(new GameObject("Shooting").transform);
