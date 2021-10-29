@@ -1,7 +1,9 @@
 using UnityEngine;
+using Zenject;
 
-namespace Zenject.Asteroids
+namespace Clicker
 {
+    //TODO LevelHelper!
     public class LevelHelper
     {
         readonly Camera _camera;
@@ -11,6 +13,7 @@ namespace Zenject.Asteroids
             Camera camera)
         {
             _camera = camera;
+           
         }
 
         public float Bottom
@@ -30,7 +33,7 @@ namespace Zenject.Asteroids
 
         public float Right
         {
-            get { return ExtentWidth; }
+            get { return ExtentWidth-1; }
         }
 
         public float ExtentHeight
@@ -56,6 +59,10 @@ namespace Zenject.Asteroids
         {
             get { return ExtentWidth * 2.0f; }
         }
+
+        public void Print()
+        {
+            Debug.Log($"Bottom: {Bottom}\nTop{Top}\nLeft{Left}\nRight{Right}\nWidth {Width}\nHeight {Height}\n");
+        }
     }
 }
-

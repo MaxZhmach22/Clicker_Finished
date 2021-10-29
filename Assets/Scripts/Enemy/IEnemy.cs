@@ -2,15 +2,11 @@
 
 namespace Clicker
 {
-    internal interface IEnemy
+    internal interface IEnemy : IScorable, IDestroyable
     {
         float CurrentHp { get; set; }
         float MaxHp { get; }
-
         Vector3 CurrentPosition { get; }
-
-        int ScorePoints { get; }
-
         bool IsDead { get; set; }
         void DeathStateInit();
     }

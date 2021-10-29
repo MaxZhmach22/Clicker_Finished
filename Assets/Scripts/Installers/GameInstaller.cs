@@ -18,6 +18,8 @@ namespace Clicker
 
         public override void InstallBindings()
         {
+            Container.Bind<Camera>().WithId("Main").FromInstance(Camera.main);
+            Container.Bind<LevelHelper>().AsSingle().NonLazy();
             Container.Bind<LevelConfig>().FromInstance(_currentLevelConfig).AsSingle();
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemiesController>();
             //Container.Bind<GameLevelView>().AsSingle().WhenInjectedInto<EnemiesController>();
@@ -47,18 +49,25 @@ namespace Clicker
             Container.Bind<Enemy>().FromInstance(_enemy);
             Container.Bind<EnemyMoveModel>().AsSingle();
             Container.BindFactory<GameUiController, GameUiController.Factory>().WhenInjectedInto<MainGameController>();
-           
+
             Container.BindFactory<GameUiView, GameUiView.Factory>().FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
             var levelView = Container.InstantiatePrefabForComponent<GameLevelView>(_settings.GameLevelView);
             Container.Bind<GameLevelView>().FromInstance(levelView).AsSingle();
             //var levelView = Container.BindFactory<GameLevelView, GameLevelView.Factory>().
             //   FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform).AsSingle();
-            
+
+            SHootingControllerBindings();
+        }
+
+        private void SHootingControllerBindings()
+        {
             Container.BindFactory<ShootingController, ShootingController.Factory>().WhenInjectedInto<MainGameController>();
             Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>().
                FromComponentInNewPrefab(_settings.ShootingLineRendererView).UnderTransform(new GameObject("Shooting").transform);
             Container.BindFactory<ImpactEffectView, ImpactEffectView.Factory>().
-               FromComponentInNewPrefab(_settings.ImpactEffectView).UnderTransform(new GameObject("Shooting").transform);
+               FromComponentInNewPrefab(_settings.ImpactEffectView).UnderTransform(GameObject.Find("Shooting").transform);
+            Container.BindFactory<ExplosionForceEffect, ExplosionForceEffect.Factory>().
+                FromComponentInNewPrefab(_settings.ExplosionForceEffect).UnderTransform(GameObject.Find("Shooting").transform);
         }
 
         [Serializable]
@@ -90,6 +99,7 @@ namespace Clicker
             [Header("Shooting LineRenderer")]
             public ShootingLineRendererView ShootingLineRendererView;
             public ImpactEffectView ImpactEffectView;
+            public ExplosionForceEffect ExplosionForceEffect;
         } 
     }
 }

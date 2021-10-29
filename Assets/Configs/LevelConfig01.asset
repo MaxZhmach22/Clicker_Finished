@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffcac1ab16103084199d96f58202cd95, type: 3}
   m_Name: LevelConfig01
   m_EditorClassIdentifier: 
-  <EnemiesCountPerLevel>k__BackingField: 50
+  <EnemiesCountPerLevel>k__BackingField: 100
+  <EnemiesStartingSpawns>k__BackingField: 20
   <EnemiesCountAtOnceSpawn>k__BackingField: 3
-  <TimeBetweenReSpawn>k__BackingField: 1
+  <MinScale>k__BackingField: 1
+  <MaxScale>k__BackingField: 2.5
+  <MinMass>k__BackingField: 1
+  <MaxMass>k__BackingField: 10
+  <MinSpeed>k__BackingField: 5
+  <MaxSpeed>k__BackingField: 10
+  <TimeBetweenReSpawn>k__BackingField: 0.5

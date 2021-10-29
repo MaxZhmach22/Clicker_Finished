@@ -48,3 +48,4 @@ MonoBehaviour:
     GameLevelView: {fileID: 949945273627132221, guid: 438db7f0d725f2f4e9b2e2c98e61a258, type: 3}
     ShootingLineRendererView: {fileID: 5348472461475693638, guid: 2b6031501a4f8294482cdca2e15ef80e, type: 3}
     ImpactEffectView: {fileID: -3371569027580953871, guid: f85c3a8e815e18d419678ee448fad1ae, type: 3}
+    ExplosionForceEffect: {fileID: 4821325315007261704, guid: 2e31edd3b2e22df46aee5f39394ffa70, type: 3}
