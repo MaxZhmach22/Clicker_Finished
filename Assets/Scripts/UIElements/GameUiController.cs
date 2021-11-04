@@ -1,43 +1,41 @@
 ﻿using Zenject;
 using UniRx;
+using UnityEngine;
 
 namespace Clicker
 {
-    internal sealed class GameUiController : BaseUiController
+    internal sealed class GameUiController : BaseController
     {
-        private GameUiView _gameUiView;
-        private readonly GameUiView.Factory _gameUiViewFactory;
-        private readonly Player _player;
-        private readonly EnemiesController _enemiesController;
+        private readonly GameUiView _gameUiView;
+        private readonly EnemiesController _enemiesController; //TODO Interface
 
         private int _score = 0;
+        private CompositeDisposable _disposables = new CompositeDisposable();
 
         public GameUiController(
-            GameUiView.Factory gameUiViewFactory, 
-            Player player, 
+            GameUiView gameUiView, 
             EnemiesController enemiesController)
         {
-            _gameUiViewFactory = gameUiViewFactory;
-            _player = player;
+            _gameUiView = gameUiView;
             _enemiesController = enemiesController;
         }
 
         public override void Start()
         {
-            _gameUiView = _gameUiViewFactory.Create();
-            AddGameObject(_gameUiView.gameObject);
-
+            _gameUiView.gameObject.SetActive(true);
             _enemiesController.Score.Subscribe(score =>
             {
                 _score += score;
                 _gameUiView.SetText($"Score: {_score}");
-            });
+            }).AddTo(_disposables);
+            Debug.Log($"{nameof(GameUiController)} Is Subcribed; Disposables count = {_disposables.Count}");
         }
 
-        public class Factory : PlaceholderFactory<GameUiController>
+        public override void Dispose()
         {
-
+            _gameUiView.gameObject.SetActive(false);
+            _disposables.Clear();
+            Debug.Log($"{nameof(GameUiController)} Is Disposed; Disposables count = {_disposables.Count}");
         }
     }
-
 }

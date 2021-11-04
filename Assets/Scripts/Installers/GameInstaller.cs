@@ -21,54 +21,99 @@ namespace Clicker
             Container.Bind<Camera>().WithId("Main").FromInstance(Camera.main);
             Container.Bind<LevelHelper>().AsSingle().NonLazy();
             Container.Bind<LevelConfig>().FromInstance(_currentLevelConfig).AsSingle();
-            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<EnemiesController>();
-            //Container.Bind<GameLevelView>().AsSingle().WhenInjectedInto<EnemiesController>();
-            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).WhenInjectedInto<ShootingController>();
+            Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).AsSingle();
+
             InstalGameStateFactories();
-
+            MainGameControllerBindings();
+            MainMenuControllerBindings();
+            CreditsMenuControllerBindings();
         }
-
         private void InstalGameStateFactories()
         {
             Container.Bind<GameStateFactory>().AsSingle();
 
             Container.BindFactory<StartGameState, StartGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainMenuController, MainMenuController.Factory>().WhenInjectedInto<StartGameState>();
-            Container.BindFactory<MainMenuView, MainMenuView.Factory>().
-                FromComponentInNewPrefab(_settings.MainMenuView).UnderTransform(_placeForUi);
+         
 
             Container.BindFactory<CreditsGameState, CreditsGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<CreditsMenuController, CreditsMenuController.Factory>().WhenInjectedInto<CreditsGameState>();
-            Container.BindFactory<CreditsMenuView, CreditsMenuView.Factory>().
-                FromComponentInNewPrefab(_settings.CreditsMenuView).UnderTransform(_placeForUi);
-
+         
             Container.BindFactory<GameGameState, GameGameState.Factory>().WhenInjectedInto<GameStateFactory>();
             Container.BindFactory<MainGameController, MainGameController.Factory>().WhenInjectedInto<GameGameState>();
-            Container.Bind<EnemiesFactory>().AsSingle();
-            Container.BindInterfacesAndSelfTo<EnemiesController>().AsSingle();
+           
+
+            Container.Bind<PlayerCollisionController>().AsSingle();
             Container.Bind<Enemy>().FromInstance(_enemy);
-            Container.Bind<EnemyMoveModel>().AsSingle();
-            Container.BindFactory<GameUiController, GameUiController.Factory>().WhenInjectedInto<MainGameController>();
 
-            Container.BindFactory<GameUiView, GameUiView.Factory>().FromComponentInNewPrefab(_settings.GameUiView).UnderTransform(_placeForUi);
-            var levelView = Container.InstantiatePrefabForComponent<GameLevelView>(_settings.GameLevelView);
-            Container.Bind<GameLevelView>().FromInstance(levelView).AsSingle();
-            //var levelView = Container.BindFactory<GameLevelView, GameLevelView.Factory>().
-            //   FromComponentInNewPrefab(_settings.GameLevelView).UnderTransform(new GameObject("Level").transform).AsSingle();
+            //Èםעונפויס GameLevelView ט GameUiView
 
-            SHootingControllerBindings();
+           
         }
 
-        private void SHootingControllerBindings()
+        private void MainGameControllerBindings()
         {
-            Container.BindFactory<ShootingController, ShootingController.Factory>().WhenInjectedInto<MainGameController>();
-            Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>().
-               FromComponentInNewPrefab(_settings.ShootingLineRendererView).UnderTransform(new GameObject("Shooting").transform);
-            Container.BindFactory<ImpactEffectView, ImpactEffectView.Factory>().
-               FromComponentInNewPrefab(_settings.ImpactEffectView).UnderTransform(GameObject.Find("Shooting").transform);
-            Container.BindFactory<ExplosionForceEffect, ExplosionForceEffect.Factory>().
-                FromComponentInNewPrefab(_settings.ExplosionForceEffect).UnderTransform(GameObject.Find("Shooting").transform);
+            GameLevelControllerBindings();
+            EnemiesControllerBindings();
+            ShootingControllerBindings();
+            GameUiControllerBindings();
         }
+
+        private void GameLevelControllerBindings()
+        {
+            Container.Bind<GameLevelViewController>().AsSingle();
+            var levelView = Container.InstantiatePrefabForComponent<GameLevelView>(
+                _settings.GameLevelView,
+                new GameObject("LevelView").transform);
+            Container.Bind<GameLevelView>().FromInstance(levelView).AsSingle();
+        }
+
+        private void EnemiesControllerBindings()
+        {
+            Container.BindInterfacesAndSelfTo<EnemiesController>().AsSingle();
+            Container.Bind<EnemiesFactory>().AsSingle();
+            Container.Bind<EnemyMoveModel>().AsSingle();
+        }
+
+        private void ShootingControllerBindings()
+        {
+            Container.Bind<ShootingController>().AsSingle();
+            Container.BindFactory<ShootingLineRendererView, ShootingLineRendererView.Factory>()
+                .FromComponentInNewPrefab(_settings.ShootingLineRendererView)
+                .UnderTransform(new GameObject("Shooting").transform);
+            Container.BindFactory<ImpactEffectView, ImpactEffectView.Factory>()
+                .FromComponentInNewPrefab(_settings.ImpactEffectView)
+                .UnderTransform(GameObject.Find("Shooting").transform);
+            Container.BindFactory<ExplosionForceEffect, ExplosionForceEffect.Factory>()
+                .FromComponentInNewPrefab(_settings.ExplosionForceEffect)
+                .UnderTransform(GameObject.Find("Shooting").transform);
+        }
+
+        private void GameUiControllerBindings()
+        {
+            Container.Bind<GameUiController>().AsSingle();
+            var gameUiView = Container.InstantiatePrefabForComponent<GameUiView>(
+                _settings.GameUiView,
+                _placeForUi);
+            Container.Bind<GameUiView>().FromInstance(gameUiView).AsSingle();
+        }
+
+        private void MainMenuControllerBindings()
+        {
+            var mainMenuView = Container.InstantiatePrefabForComponent<MainMenuView>(
+                _settings.MainMenuView, _placeForUi);
+            Container.Bind<MainMenuView>().FromInstance(mainMenuView).AsSingle();
+        }
+
+        private void CreditsMenuControllerBindings()
+        {
+            Container.Bind<CreditsMenuController>().AsSingle();
+            var creditsMenuView = Container.InstantiatePrefabForComponent<CreditsMenuView>(
+                _settings.CreditsMenuView,
+                _placeForUi);
+            Container.Bind<CreditsMenuView>().FromInstance(creditsMenuView).AsSingle();
+        }
+
 
         [Serializable]
         public class Settings

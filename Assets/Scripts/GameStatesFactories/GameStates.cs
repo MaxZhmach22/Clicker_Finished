@@ -6,6 +6,7 @@
         Start,
         Settings,
         Credits,
-        Game
+        Game,
+        End
     }
 }

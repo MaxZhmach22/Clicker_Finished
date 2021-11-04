@@ -21,6 +21,7 @@ namespace Clicker
         public Vector3 CurrentPosition => gameObject.transform.position;
         public bool IsDead { get; set; } = false;
         public abstract void DeathStateInit();
+        public abstract void TakeDamage();
 
 
         private EnemyMoveTypes _moveType;
@@ -59,6 +60,7 @@ namespace Clicker
         public abstract void PlayAnimation();
         public abstract void DestroyEffectsInit();
         public abstract void TakeDamageEffectsInit();
+
 
         public virtual Vector3 GetRandomDirection()
         {

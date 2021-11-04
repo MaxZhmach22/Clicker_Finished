@@ -6,18 +6,19 @@ namespace Clicker
 {
     internal sealed class Enemy : EnemyBase
     {
-        private LevelHelper _level;
         private Vector3 _randomAxisRotateAround;
         private LevelConfig _levelConfig;
+        private LevelHelper _level;
         private Player _player;
 
         public override void Init(LevelHelper level, LevelConfig levelConfig, Player player)
         {
-            _player = player;
+            _randomAxisRotateAround = new Vector3(Random.value, Random.value, Random.value).normalized;
             _levelConfig = levelConfig;
             _level = level;
+            _player = player;
             _rigidBody = GetComponent<Rigidbody>();
-            _randomAxisRotateAround = new Vector3(Random.value, Random.value, Random.value).normalized;
+            
         }
 
         public override Vector3 Position
@@ -36,6 +37,7 @@ namespace Clicker
             {
                 transform.localScale = new Vector3(value, value, value);
                 _rigidBody.mass = value;
+                MaxHp *= value;
             }
         }
 
@@ -87,15 +89,19 @@ namespace Clicker
                 Randomness, 
                 FadeOut).OnComplete(() => AnimationInProcess = false);
         }
+
         public override void DeathStateInit()
         {
-            //TODO Enemy 1) ƒописать инициализацию смерти врага
-
             DestroyEffectsInit();
-            //IsDead = true;
+            IsDead = true;
         }
 
-       
+        public override void TakeDamage()
+        {
+            TakeDamageEffectsInit();
+            PlayAnimation();
+        }
+
         public override void GetActive()
         {
             gameObject.SetActive(true);

@@ -2,12 +2,21 @@ using UnityEngine;
 using UniRx;
 using System;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace Clicker
 {
     internal sealed class InputTouchPresenter : MonoBehaviour
     {
         [SerializeField] private EventSystem _eventSystem;
+
+        private Player _player;
+        [Inject]
+        private void Init(Player player)
+        {
+            _player = player;
+        }
+
         public Subject<IEnemy> Enemy { get; private set; } = new Subject<IEnemy>();
         public Subject<Vector3> TouchPosition { get; private set; } = new Subject<Vector3>();
 
@@ -48,6 +57,14 @@ namespace Clicker
                     
 
                 
+            }
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space)) 
+            {
+                _player.ChangeState(GameStates.Start);
             }
         }
     }

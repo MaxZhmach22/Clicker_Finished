@@ -1,45 +1,53 @@
 ﻿using UniRx;
 using UnityEngine;
 using Zenject;
-
+ 
 namespace Clicker
 {
     internal sealed class MainGameController : BaseController
     {
-        private ShootingController _shootingController;
-        private GameUiController _gameUiController;
+        private readonly GameLevelViewController _gameLevelViewController;
         private readonly EnemiesController _enemiesController;
-        private readonly GameUiView.Factory _gameUiViewFactory;
-        //private readonly GameLevelView.Factory _gameLevelViewFactory;
-        private readonly GameLevelView _gameLevelView;
-        private readonly ShootingController.Factory _shootingControllerFactory;
-        private readonly GameUiController.Factory _gameUiControllerFactory;
-        private Player _player;
+        private readonly ShootingController _shootingController;
+        private readonly GameUiController _gameUiController;
+        private readonly PlayerCollisionController _playerCollisionController;
+        private readonly Player _player;
 
         public MainGameController(
-            //GameLevelView.Factory gameLevelViewFactory,
-            ShootingController.Factory shootingControllerFactory,
-            GameUiController.Factory gameUiControllerFactory,
-            EnemiesController enemiesController,
-            GameLevelView gameLevelView,
-            Player player)
+             GameLevelViewController gameLevelViewController,
+             EnemiesController enemiesController,
+             ShootingController shootingController,
+             GameUiController gameUiController,
+             PlayerCollisionController playerCollisionController,
+             Player player)
         {
-            //_gameLevelViewFactory = gameLevelViewFactory;
-            _gameLevelView = gameLevelView;
-            _shootingControllerFactory = shootingControllerFactory;
-            _gameUiControllerFactory = gameUiControllerFactory;
-            _enemiesController = enemiesController;
-            _player = player;
+             _gameLevelViewController = gameLevelViewController;
+             _enemiesController = enemiesController;
+             _shootingController = shootingController;
+             _gameUiController = gameUiController;
+             _playerCollisionController = playerCollisionController;
+             _player = player;
         }
 
         public override void Start()
         {
-            //_gameLevelView = _gameLevelViewFactory.Create();
-            _shootingController = _shootingControllerFactory.Create();
-            _shootingController.Start();
-            _gameUiController = _gameUiControllerFactory.Create();
-            _gameUiController.Start();
+            _player.gameObject.SetActive(true);
+
+            _gameLevelViewController.Start();
             _enemiesController.Start();
+            _shootingController.Start();
+            _gameUiController.Start();
+            _playerCollisionController.Start();
+        }
+
+        public override void Dispose()
+        {
+            _gameLevelViewController?.Dispose();
+            _shootingController?.Dispose();
+            _gameUiController?.Dispose();
+            _enemiesController?.Dispose();
+            _playerCollisionController?.Dispose();
+            Debug.Log(nameof(MainGameController) + " Disposed");
         }
 
         public sealed class Factory : PlaceholderFactory<MainGameController>

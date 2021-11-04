@@ -9,5 +9,7 @@ namespace Clicker
         Vector3 CurrentPosition { get; }
         bool IsDead { get; set; }
         void DeathStateInit();
+
+        void TakeDamage();
     }
 }

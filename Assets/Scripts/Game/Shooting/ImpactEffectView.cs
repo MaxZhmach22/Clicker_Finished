@@ -30,6 +30,8 @@ namespace Clicker
             return false;
         }
 
+        public void Destroy() => Destroy(gameObject);
+
         public sealed class Factory : PlaceholderFactory<ImpactEffectView>
         {
         }

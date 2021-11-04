@@ -13,9 +13,9 @@ namespace Clicker
 
         public List<EnemyBase> ListOfEnemies => _listOfEnemies;
         public Queue<EnemiesAttributes> CachedAttributes => _cachedAttributes;
-        public EnemyBase InstantiateEnemy(LevelHelper level, LevelConfig levelConfig, Player player)
+        public EnemyBase InstantiateEnemy(LevelHelper level, LevelConfig levelConfig, Player player, Transform parentTransform)
         {
-            var enemy = GameObject.Instantiate(_enemy);
+            var enemy = GameObject.Instantiate(_enemy, parentTransform);
             enemy.gameObject.SetActive(false);
             enemy.Init(level, levelConfig, player);
             return enemy;

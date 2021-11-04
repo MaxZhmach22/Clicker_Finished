@@ -10,11 +10,7 @@ namespace Clicker
     {
         [field: SerializeField] public Button CreditsBtn { get; private set; }
         [field: SerializeField] public Button StartGameBtn { get; private set; }
-
-
-        public sealed class Factory : PlaceholderFactory<MainMenuView>
-        {
-        }
-
+        private void Start() =>
+            gameObject.SetActive(false);
     }
 }

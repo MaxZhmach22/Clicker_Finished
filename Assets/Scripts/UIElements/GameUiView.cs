@@ -8,6 +8,9 @@ namespace Clicker
     {
         [SerializeField] private TextMeshProUGUI _scoreText;
 
+        private void Start() =>
+           gameObject.SetActive(false);
+
         private bool isAnimationInProcess;
         public void SetText(string score)
         {
@@ -29,8 +32,7 @@ namespace Clicker
             
         }
 
-        public sealed class Factory : PlaceholderFactory<GameUiView>
-        {
-        }
+        
+
     }
 }

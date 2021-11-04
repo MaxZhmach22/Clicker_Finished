@@ -1,4 +1,5 @@
 ﻿using ModestTree;
+using UnityEngine;
 
 namespace Clicker
 {
@@ -32,11 +33,12 @@ namespace Clicker
                     break;
                 case GameStates.Credits:
                     return _creditsStateFactory.Create();
-                    break;
                 case GameStates.Game:
                     return _gameStateFactory.Create();
-                    break;
                 case GameStates.None:
+                    break;
+                case GameStates.End:
+                    Debug.Log("End State");
                     break;
             }
 

@@ -15,6 +15,7 @@ namespace Clicker
         private void Start()
         {
             transform.position = Vector3.zero;
+            gameObject.SetActive(false);
         }
 
         private void Update()
@@ -22,8 +23,7 @@ namespace Clicker
             _plane.transform.Rotate(Vector3.up, Time.deltaTime);
         }
 
-        public sealed class Factory : PlaceholderFactory<GameLevelView>
-        {
-        }
+
+
     }
 }

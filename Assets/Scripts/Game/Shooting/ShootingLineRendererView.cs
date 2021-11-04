@@ -6,16 +6,6 @@ namespace Clicker
 {
     public sealed class ShootingLineRendererView : MonoBehaviour
     {
-        //private WeaponsPrefs _weaponsPrefs;
-        //private PlayerModel _playerModel;
-
-        ////TODO Shooting 1) 
-        //[Inject]
-        //private void Init(WeaponsPrefs weaponsPrefs, PlayerModel playerModel)
-        //{
-        //    _weaponsPrefs = weaponsPrefs;
-
-        //}
         public bool InDrawLineProcess { get; private set; } = false;
 
         private LineRenderer _lineRenderer;
@@ -28,7 +18,6 @@ namespace Clicker
 
         public void DrawShootLine(Vector3 startPos, Vector3 endPosition)
         {
-
             if(_lineRenderer != null)
             {
                 InDrawLineProcess = true;
@@ -37,7 +26,7 @@ namespace Clicker
                 _lineRenderer.SetPosition(1, endPosition + Vector3.up);
                 _lineRenderer.DOColor(
                     new Color2(Color.white, Color.white), 
-                    new Color2(Color.black, Color.red), 0.5f)   
+                    new Color2(Color.black, Color.cyan), 0.3f)   
                     .OnComplete(() => { _lineRenderer.enabled = false; InDrawLineProcess = false;  });
             }
         }

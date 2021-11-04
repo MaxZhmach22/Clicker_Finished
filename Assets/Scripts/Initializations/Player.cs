@@ -6,26 +6,27 @@ namespace Clicker
 {
     internal class Player : MonoBehaviour
     {
-        GameState _state;
-        GameStateFactory _gameStateFactory;
+        public Subject<Collision> CollisionGameObject = new Subject<Collision>();
+
+        private GameState _state;
+        private GameStateFactory _gameStateFactory;
         private InputTouchPresenter _inputTouchPresenter;
-        public int Damage = 20; 
+        public int Damage = 20;
+        private int _lifeCounts = 1;
+
+        public int LifeCounts => _lifeCounts;
+
+        public GameStates CurrentGameState { get; private set; }
 
         [Inject]
         public void Init(GameStateFactory gameStateFactory)
         {
             _gameStateFactory = gameStateFactory;
-           
         }
 
         public void Start()
         {
-            ChangeState(GameStates.Game);
-            //_inputTouchPresenter.Enemy.Subscribe(enemy =>
-            //{
-            //    if (enemy != null)
-            //        ShootAnimation(enemy);
-            //});
+            ChangeState(GameStates.Start);
         }
 
         public void ChangeState(GameStates state) 
@@ -35,7 +36,7 @@ namespace Clicker
                 _state.Dispose();
                 _state = null;
             }
-
+            CurrentGameState = state;
             _state = _gameStateFactory.CreateState(state);
             _state.Start();
         }
@@ -45,11 +46,7 @@ namespace Clicker
             public GameObject PlayersPrefab;
         }
 
-        private void ShootAnimation(IEnemy enemy)
-        {
-            
-        }
-
-
+        private void OnCollisionEnter(Collision collision) =>
+            CollisionGameObject.OnNext(collision);
     }
 }

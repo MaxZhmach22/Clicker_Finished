@@ -5,26 +5,34 @@ using UniRx;
 
 namespace Clicker
 {
-    internal sealed class MainMenuController : BaseUiController
+    internal sealed class MainMenuController : BaseController
     {
+        private readonly MainMenuView _mainMenuView;
+        private readonly Player _player;
 
-        private readonly MainMenuView.Factory _mainMenuViewFactory;
-        private MainMenuView _mainMenuView;
-        private Player _player;
-
-        public MainMenuController(MainMenuView.Factory mainMenuViewFactory, Player player)
+        public MainMenuController(
+            MainMenuView mainMenuView, 
+            Player player)
         {
-            _mainMenuViewFactory = mainMenuViewFactory;
+            _mainMenuView = mainMenuView;
             _player = player;
-            
         }
-
+        
         public override void Start()
         {
-            _mainMenuView = _mainMenuViewFactory.Create();
-            AddGameObject(_mainMenuView.gameObject);
-            _mainMenuView.CreditsBtn.OnClickAsObservable().Subscribe(_ => _player.ChangeState(GameStates.Credits));
-            _mainMenuView.StartGameBtn.OnClickAsObservable().Subscribe(_ => _player.ChangeState(GameStates.Game));
+            _player.gameObject.SetActive(false);
+            _mainMenuView.gameObject.SetActive(true);
+
+            _mainMenuView.CreditsBtn.OnClickAsObservable()
+                .Subscribe(_ => _player.ChangeState(GameStates.Credits))
+                .AddTo(_mainMenuView);
+            _mainMenuView.StartGameBtn.OnClickAsObservable()
+                .Subscribe(_ => _player.ChangeState(GameStates.Game))
+                .AddTo(_mainMenuView);
+        }
+        public override void Dispose()
+        {
+            _mainMenuView.gameObject.SetActive(false);
         }
 
         public class Factory : PlaceholderFactory<MainMenuController>
