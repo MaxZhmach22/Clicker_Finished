@@ -1,5 +1,6 @@
 ﻿using ModestTree;
 using UnityEngine;
+using Zenject;
 
 namespace Clicker
 {

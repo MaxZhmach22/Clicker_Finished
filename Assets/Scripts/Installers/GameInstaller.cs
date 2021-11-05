@@ -73,6 +73,8 @@ namespace Clicker
             Container.BindInterfacesAndSelfTo<EnemiesController>().AsSingle();
             Container.Bind<EnemiesFactory>().AsSingle();
             Container.Bind<EnemyMoveModel>().AsSingle();
+            Container.Bind<MeteorEnemiesPool>().AsCached();
+            Container.Bind<IEnemiesPool>().To<MeteorEnemiesPool>().WhenInjectedInto<Enemy>();
         }
 
         private void ShootingControllerBindings()

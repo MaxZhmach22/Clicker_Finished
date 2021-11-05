@@ -98,6 +98,6 @@ namespace Clicker
 
         public abstract void FixedTick();
 
-        public abstract void Init(LevelHelper level, LevelConfig levelConfig, Player player);
+        //public abstract void Init(LevelHelper level, LevelConfig levelConfig, Player player);
     }
 }

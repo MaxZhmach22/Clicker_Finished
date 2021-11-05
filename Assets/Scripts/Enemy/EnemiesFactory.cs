@@ -8,26 +8,24 @@ namespace Clicker
     {
         [Inject] private Enemy _enemy;
         [Inject] private readonly LevelConfig _levelConfigs;
-        private readonly List<EnemyBase> _listOfEnemies = new List<EnemyBase>();
+        [Inject] private DiContainer _diContainer;
         private readonly Queue<EnemiesAttributes> _cachedAttributes = new Queue<EnemiesAttributes>();
 
-        public List<EnemyBase> ListOfEnemies => _listOfEnemies;
         public Queue<EnemiesAttributes> CachedAttributes => _cachedAttributes;
-        public EnemyBase InstantiateEnemy(LevelHelper level, LevelConfig levelConfig, Player player, Transform parentTransform)
+        public EnemyBase InstantiateEnemy(Transform parentTransform)
         {
-            var enemy = GameObject.Instantiate(_enemy, parentTransform);
+            var enemy = _diContainer.InstantiatePrefabForComponent<EnemyBase>(_enemy, parentTransform);
             enemy.gameObject.SetActive(false);
-            enemy.Init(level, levelConfig, player);
             return enemy;
         }
                 
   
-        public void GenerateRandomAttributes(LevelConfig levelConfig)
+        public void GenerateRandomAttributes(LevelConfig levelConfig, int sizeOfPool)
         {
             var speedTotal = 0.0f;
             var sizeTotal = 0.0f;
 
-            for (int i = 0; i < levelConfig.EnemiesCountPerLevel; i++)
+            for (int i = 0; i < sizeOfPool; i++)
             {
                 var sizePx = Random.Range(0.0f, 1.0f);
                 var speed = Random.Range(_levelConfigs.MinSpeed, levelConfig.MinSpeed);

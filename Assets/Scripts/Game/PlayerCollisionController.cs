@@ -36,8 +36,8 @@ namespace Clicker
 
         private void CollisionCountCheker()
         {
-            if (_counts >= _player.LifeCounts)
-                _player.ChangeState(GameStates.Start);
+            //if (_counts >= _player.LifeCounts)
+            //    _player.ChangeState(GameStates.Start);
   
         }
     }

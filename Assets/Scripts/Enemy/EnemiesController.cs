@@ -3,6 +3,7 @@ using UniRx;
 using UnityEngine;
 using Zenject;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Clicker
 {
@@ -13,26 +14,26 @@ namespace Clicker
         public Subject<IEnemy> EnemyToShoot = new Subject<IEnemy>();
 
         private readonly InputTouchPresenter _inputTouchPresenter;
-        private readonly EnemiesFactory _enemiesFactroy;
+        private readonly MeteorEnemiesPool _enemiesPool;
         private readonly EnemyMoveModel _enemyMoveModel;
         private readonly LevelConfig _levelConfig;
         private readonly LevelHelper _level;
         private readonly Player _player;
 
         private float _timer;
-        private Transform _parentTranform;
         private CompositeDisposable _disposables = new CompositeDisposable();
+        private List<EnemyBase> _activeEnemyList = new List<EnemyBase>();
 
         public EnemiesController(
             InputTouchPresenter inputTouchPresenter,
-            EnemiesFactory enemiesFactroy,
+            MeteorEnemiesPool enemiesPool,
             EnemyMoveModel enemyMoveModel,
             LevelConfig levelConfig,
             LevelHelper level,
             Player player)
         {
             _inputTouchPresenter = inputTouchPresenter;
-            _enemiesFactroy = enemiesFactroy;
+            _enemiesPool = enemiesPool;
             _enemyMoveModel = enemyMoveModel;
             _levelConfig = levelConfig;
             _level = level;
@@ -41,41 +42,35 @@ namespace Clicker
 
         public override void Start()
         {
-            _parentTranform = new GameObject("Enemies").transform;
             SubscribeOnSubjects();
-            _enemiesFactroy.GenerateRandomAttributes(_levelConfig);
+            _enemiesPool.GeneratePool();
 
-            for (int i = 0; i < _levelConfig.EnemiesStartingSpawns; i++)
-            {
-                SpawnNext(_level, _levelConfig, _player, _parentTranform);
-            }
+            for (int i = 0; i < _levelConfig.EnemiesStartingSpawns; i++) { }
+                SpawnNext(_enemiesPool.GetEnemyFromPool());
+
             Debug.Log($"{nameof(EnemiesController)} Is Subcribed; Disposables count = {_disposables.Count}");
         }
 
         public override void Dispose()
         {
-            ResetAll();
+            _enemiesPool.ResetAll();
+            foreach (var enemy in _activeEnemyList)
+                GameObject.Destroy(enemy.gameObject);
+
+            _activeEnemyList.Clear();
             _disposables.Clear();
             Debug.Log($"{nameof(EnemiesController)} Is Disposed; Disposables count = {_disposables.Count}");
         }
 
 
-        private void SpawnNext(
-            LevelHelper level, 
-            LevelConfig levelConfig, 
-            Player player, 
-            Transform parentTransform)
+        private void SpawnNext(EnemyBase enemy)
         {
-            var enemy = _enemiesFactroy.InstantiateEnemy(level, levelConfig, player, parentTransform);
-            var attributes = _enemiesFactroy.CachedAttributes.Dequeue();
-
-            enemy.Scale = Mathf.Lerp(_levelConfig.MinScale, _levelConfig.MaxScale, attributes.Size);
-            enemy.Mass = Mathf.Lerp(_levelConfig.MinMass, _levelConfig.MaxMass, attributes.Size);
-            enemy.Position = GetRandomStartPosition(enemy.Scale);
-            enemy.Velocity = enemy.GetRandomDirection() * attributes.InitialSpeed;
-
-            _enemiesFactroy.ListOfEnemies.Add(enemy);
-            enemy.gameObject.SetActive(true);
+            if(enemy != null)
+            {
+                enemy.Position = GetRandomStartPosition(enemy.Scale);
+                enemy.gameObject.SetActive(true);
+                _activeEnemyList.Add(enemy);
+            }
         }
 
         private void SubscribeOnSubjects()
@@ -112,26 +107,27 @@ namespace Clicker
         {
             if (_player.CurrentGameState != GameStates.Game)
                 return;
-            for (int i = 0; i < _enemiesFactroy.ListOfEnemies.Count; i++)
+
+            for (int i = 0; i < _activeEnemyList.Count; i++)
             {
-                _enemiesFactroy.ListOfEnemies[i].Tick();
+                _activeEnemyList[i].Tick();
             }
 
             _timer += Time.deltaTime;
-
-            if(_timer>= _levelConfig.TimeBetweenReSpawn && _enemiesFactroy.ListOfEnemies.Count < _levelConfig.EnemiesCountPerLevel)
+            if(_timer>= _levelConfig.TimeBetweenReSpawn)
             {
-                SpawnNext(_level, _levelConfig, _player, _parentTranform);
                 _timer = 0;
+                SpawnNext(_enemiesPool.GetEnemyFromPool());
             }
         }
         public void FixedTick()
         {
             if (_player.CurrentGameState != GameStates.Game)
                 return;
-            for (int i = 0; i < _enemiesFactroy.ListOfEnemies.Count; i++)
+
+            for (int i = 0; i < _activeEnemyList.Count; i++)
             {
-                _enemiesFactroy.ListOfEnemies[i].FixedTick();
+                _activeEnemyList[i].FixedTick();
             }
         }
         /// <summary>
@@ -140,30 +136,20 @@ namespace Clicker
         private void SpawnEnemies()
         {
             var count = UnityEngine.Random.Range(0, _levelConfig.EnemiesCountAtOnceSpawn);
-            if (_enemiesFactroy.ListOfEnemies.Count <= count)
+            if (_activeEnemyList.Count <= count)
                 return;
 
             for (int i = 0; i < count; i++)
             {
-                var enemy = _enemiesFactroy.ListOfEnemies
+                var enemy = _activeEnemyList
                     .Where(enemy => !enemy.gameObject.activeSelf)
                     .FirstOrDefault();
 
                 enemy.MoveType = _enemyMoveModel.GetRandomMoveTypeValue();
                 //enemy.SetStartPositioAndDirection(enemy.MoveType, _gameLevelView);
                 enemy.GetActive();
-                _enemiesFactroy.ListOfEnemies.Remove(enemy);
+                _activeEnemyList.Remove(enemy);
             }
-        }
-
-        void ResetAll()
-        {
-            foreach (var enemy in _enemiesFactroy.ListOfEnemies)
-                GameObject.Destroy(enemy.gameObject);
-
-            _enemiesFactroy.ListOfEnemies.Clear();
-            _enemiesFactroy.CachedAttributes.Clear();
-            GameObject.Destroy(_parentTranform.gameObject);
         }
 
         Vector3 GetRandomStartPosition(float scale)

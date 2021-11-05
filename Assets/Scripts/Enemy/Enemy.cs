@@ -10,11 +10,18 @@ namespace Clicker
         private LevelConfig _levelConfig;
         private LevelHelper _level;
         private Player _player;
+        private IEnemiesPool _enemiesPool;
 
-        public override void Init(LevelHelper level, LevelConfig levelConfig, Player player)
+        [Inject]
+        public void Init(
+            LevelHelper level, 
+            LevelConfig levelConfig,
+            IEnemiesPool enemiesPool,
+            Player player)
         {
             _randomAxisRotateAround = new Vector3(Random.value, Random.value, Random.value).normalized;
             _levelConfig = levelConfig;
+            _enemiesPool = enemiesPool;
             _level = level;
             _player = player;
             _rigidBody = GetComponent<Rigidbody>();
@@ -93,7 +100,8 @@ namespace Clicker
         public override void DeathStateInit()
         {
             DestroyEffectsInit();
-            IsDead = true;
+            _enemiesPool.ReturnToPool(this);
+            //IsDead = true;
         }
 
         public override void TakeDamage()
