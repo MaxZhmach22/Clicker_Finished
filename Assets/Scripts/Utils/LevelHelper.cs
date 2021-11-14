@@ -7,14 +7,21 @@ namespace Clicker
     public class LevelHelper
     {
         readonly Camera _camera;
+        private BoxCollider _boxCollider;
 
         public LevelHelper(
             [Inject(Id = "Main")]
             Camera camera)
         {
             _camera = camera;
-           
+            _boxCollider =_camera.GetComponent<BoxCollider>();
+            Debug.Log(Height);
+            Debug.Log(Width);
+            _boxCollider.size = new Vector3(Width, Height, 100);
+            _boxCollider.center = new Vector3(0, 0, 100 / 2);
         }
+
+
 
         public float Bottom
         {

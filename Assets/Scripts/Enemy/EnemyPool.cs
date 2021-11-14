@@ -9,14 +9,14 @@ namespace Clicker
 {
     internal sealed class EnemyPool
     {
-        private readonly Dictionary<string, HashSet<EnemyBase>> _enemyPool;
+        private readonly Dictionary<string, HashSet<BaseEnemy>> _enemyPool;
         private readonly int _capacityPool;
         private Transform _rootPool;
         private GameSettingsInstaller _gameData;
 
         public EnemyPool(int capacityPool, GameSettingsInstaller gameData)
         {
-            _enemyPool = new Dictionary<string, HashSet<EnemyBase>>();
+            _enemyPool = new Dictionary<string, HashSet<BaseEnemy>>();
             _gameData = gameData;
             _capacityPool = capacityPool;
             if (!_rootPool)
@@ -25,9 +25,9 @@ namespace Clicker
             }
         }
 
-        public EnemyBase GetEnemy(string type)
+        public BaseEnemy GetEnemy(string type)
         {
-            EnemyBase result;
+            BaseEnemy result;
             switch (type)
             {
                 case "EasyEnemy":
@@ -46,12 +46,12 @@ namespace Clicker
             return result;
         }
 
-        private HashSet<EnemyBase> GetListEnemies(string type)
+        private HashSet<BaseEnemy> GetListEnemies(string type)
         {
-            return _enemyPool.ContainsKey(type) ? _enemyPool[type] : _enemyPool[type] = new HashSet<EnemyBase>();
+            return _enemyPool.ContainsKey(type) ? _enemyPool[type] : _enemyPool[type] = new HashSet<BaseEnemy>();
         }
 
-        private EnemyBase GetEnemy(HashSet<EnemyBase> enemies, int indexInEnemyPrefabList)
+        private BaseEnemy GetEnemy(HashSet<BaseEnemy> enemies, int indexInEnemyPrefabList)
         {
             var enemy = enemies.FirstOrDefault(a => !a.gameObject.activeSelf);
             if (enemy == null)
@@ -59,7 +59,7 @@ namespace Clicker
                 for (var i = 0; i < _capacityPool; i++)
                 {
                     var enemyObj = GameObject.Instantiate(_gameData.enemyPrefabList[indexInEnemyPrefabList]);
-                    var enemyBaseScript = enemyObj.GetComponent<EnemyBase>();
+                    var enemyBaseScript = enemyObj.GetComponent<BaseEnemy>();
                     ReturnToPool(enemyObj.transform);
                     enemies.Add(enemyBaseScript);
                 }

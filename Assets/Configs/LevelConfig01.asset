@@ -22,3 +22,4 @@ MonoBehaviour:
   <MinSpeed>k__BackingField: 5
   <MaxSpeed>k__BackingField: 10
   <TimeBetweenReSpawn>k__BackingField: 0.5
+  <MissleEnemyCountPerLevel>k__BackingField: 4

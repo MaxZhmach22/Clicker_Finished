@@ -6,11 +6,7 @@ namespace Clicker
     public sealed class GameLevelView : MonoBehaviour
     {
         [SerializeField] private GameObject _plane;
-
-        [field: SerializeField] public GameObject UpCenterSpawnPoint { get; private set; }
-        [field: SerializeField] public GameObject DownCenterSpawnPoint { get; private set; }
-        [field: SerializeField] public GameObject RightCenterSpawnPoint { get; private set; }
-        [field: SerializeField] public GameObject LeftCenterSpawnPoint { get; private set; }
+        [SerializeField] private float _speed;
 
         private void Start()
         {
@@ -20,7 +16,7 @@ namespace Clicker
 
         private void Update()
         {
-            _plane.transform.Rotate(Vector3.up, Time.deltaTime);
+            _plane.transform.Rotate(Vector3.up, _speed * Time.deltaTime);
         }
 
 

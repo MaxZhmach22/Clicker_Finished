@@ -13,12 +13,15 @@ namespace Clicker
         [SerializeField] private Transform _placeForUi;
         [SerializeField] private Player _player;
         [SerializeField] private InputTouchPresenter _inputTouchPresenter;
-        [SerializeField] private Enemy _enemy; //TODO enemy
+        [SerializeField] private MeteorEnemy _meteorEnemy;
+        [SerializeField] private MissleEnemy _missleEnemy;
         [SerializeField] private LevelConfig _currentLevelConfig;
+        [SerializeField] private Transform _parentIsometricHolder;
 
         public override void InstallBindings()
         {
             Container.Bind<Camera>().WithId("Main").FromInstance(Camera.main);
+            Container.Bind<Transform>().WithId("ParentIsometricTransform").FromInstance(_parentIsometricHolder);
             Container.Bind<LevelHelper>().AsSingle().NonLazy();
             Container.Bind<LevelConfig>().FromInstance(_currentLevelConfig).AsSingle();
             Container.Bind<InputTouchPresenter>().FromInstance(_inputTouchPresenter).AsSingle();
@@ -44,7 +47,7 @@ namespace Clicker
            
 
             Container.Bind<PlayerCollisionController>().AsSingle();
-            Container.Bind<Enemy>().FromInstance(_enemy);
+            
 
             //Èםעונפויס GameLevelView ט GameUiView
 
@@ -64,17 +67,21 @@ namespace Clicker
             Container.Bind<GameLevelViewController>().AsSingle();
             var levelView = Container.InstantiatePrefabForComponent<GameLevelView>(
                 _settings.GameLevelView,
-                new GameObject("LevelView").transform);
+                _parentIsometricHolder);
             Container.Bind<GameLevelView>().FromInstance(levelView).AsSingle();
         }
 
         private void EnemiesControllerBindings()
         {
             Container.BindInterfacesAndSelfTo<EnemiesController>().AsSingle();
-            Container.Bind<EnemiesFactory>().AsSingle();
+            Container.Bind<EnemiesFactory>().AsTransient();
             Container.Bind<EnemyMoveModel>().AsSingle();
             Container.Bind<MeteorEnemiesPool>().AsCached();
-            Container.Bind<IEnemiesPool>().To<MeteorEnemiesPool>().WhenInjectedInto<Enemy>();
+            Container.Bind<MissleEnemiesPool>().AsCached();
+            Container.Bind<MeteorEnemy>().FromInstance(_meteorEnemy);
+            Container.Bind<MissleEnemy>().FromInstance(_missleEnemy);
+            Container.Bind<IEnemiesPool>().To<MissleEnemiesPool>().WhenInjectedInto<MissleEnemy>();
+            Container.Bind<IEnemiesPool>().To<MeteorEnemiesPool>().WhenInjectedInto<MeteorEnemy>();
         }
 
         private void ShootingControllerBindings()

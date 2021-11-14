@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Clicker
 {
-    internal abstract class EnemyBase : MonoBehaviour, IEnemy, IAnimatable
+    internal abstract class BaseEnemy : MonoBehaviour, IEnemy, IAnimatable
     {
 
         [field: Header("Enemy Settings")]
@@ -15,6 +15,7 @@ namespace Clicker
         public abstract float Scale { get; set; }
         public abstract float Mass { get; set; }
         public abstract Vector3 Velocity { get; set; }
+        public abstract float YAxisOfFset { get; protected set; }
 
 
         [SerializeField] protected float _speed;
@@ -68,30 +69,6 @@ namespace Clicker
             return new Vector3(Mathf.Cos(theta), 0, Mathf.Sin(theta));
         }
 
-        public virtual void SetStartPositioAndDirection(
-            EnemyMoveTypes enemyMoveType, 
-            GameLevelView gameLevelView)
-        {
-            switch (enemyMoveType)
-            {
-                case EnemyMoveTypes.UpToDown:
-                    _startPosition = gameLevelView.UpCenterSpawnPoint.transform;
-                    _movingDirection = new Vector3(-15, 0, -15);
-                    break;
-                case EnemyMoveTypes.DownToUp:
-                    _startPosition = gameLevelView.DownCenterSpawnPoint.transform;
-                    _movingDirection = new Vector3(15, 0, 15);
-                    break;
-                case EnemyMoveTypes.LeftToRight:
-                    _startPosition = gameLevelView.LeftCenterSpawnPoint.transform;
-                    _movingDirection = new Vector3(15, 0, -15);
-                    break;
-                case EnemyMoveTypes.RightToLeft:
-                    _startPosition = gameLevelView.RightCenterSpawnPoint.transform;
-                    _movingDirection = new Vector3(-15, 0, 15);
-                    break; 
-            }
-        }
         public abstract void GetActive();
 
         public abstract void Tick();

@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Clicker
 {
-    internal sealed class Enemy : EnemyBase
+    internal sealed class MeteorEnemy : BaseEnemy
     {
         private Vector3 _randomAxisRotateAround;
         private LevelConfig _levelConfig;
@@ -61,6 +61,7 @@ namespace Clicker
 
         [field: SerializeField] public GameObject ExplosionPrefab { get; private set; }
         [field: SerializeField] public GameObject MiscPrefab { get; private set; }
+        public override float YAxisOfFset { get; protected set; } = 0;
 
         private void Start() =>
             CurrentHp = MaxHp;

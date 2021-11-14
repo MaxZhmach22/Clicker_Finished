@@ -6,20 +6,20 @@ namespace Clicker
 {
     internal sealed class EnemiesFactory
     {
-        [Inject] private Enemy _enemy;
+        [Inject(Id = "ParentIsometricTransform")] protected Transform _parentIsometricTransform;
         [Inject] private readonly LevelConfig _levelConfigs;
         [Inject] private DiContainer _diContainer;
         private readonly Queue<EnemiesAttributes> _cachedAttributes = new Queue<EnemiesAttributes>();
 
         public Queue<EnemiesAttributes> CachedAttributes => _cachedAttributes;
-        public EnemyBase InstantiateEnemy(Transform parentTransform)
+        public BaseEnemy InstantiateEnemy(BaseEnemy enemyPrefab, Transform parentTransform)
         {
-            var enemy = _diContainer.InstantiatePrefabForComponent<EnemyBase>(_enemy, parentTransform);
+            parentTransform.SetParent(_parentIsometricTransform);
+            var enemy = _diContainer.InstantiatePrefabForComponent<BaseEnemy>(enemyPrefab, parentTransform);
             enemy.gameObject.SetActive(false);
             return enemy;
         }
                 
-  
         public void GenerateRandomAttributes(LevelConfig levelConfig, int sizeOfPool)
         {
             var speedTotal = 0.0f;

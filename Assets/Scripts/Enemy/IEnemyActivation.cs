@@ -2,6 +2,6 @@
 {
     internal interface IEnemyActivation
     {
-        public void Activation(EnemyBase enemy);
+        public void Activation(BaseEnemy enemy);
     }
 }

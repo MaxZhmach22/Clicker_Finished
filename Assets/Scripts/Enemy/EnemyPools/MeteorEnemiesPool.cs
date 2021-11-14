@@ -1,18 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
+using Zenject;
 
 namespace Clicker
 {
-    internal sealed class MeteorEnemiesPool : IEnemiesPool
+    internal sealed class MeteorEnemiesPool : BaseEnemyPool
     {
         #region Fields
+        [Inject] private MeteorEnemy _meteorEnemy;
 
         private readonly EnemiesFactory _enemiesFactory;
         private readonly LevelConfig _levelConfig;
-        private readonly List<EnemyBase> _enemiesList;
+        private readonly List<BaseEnemy> _enemiesList;
         private readonly int enemiesAtPoolCount = 30;
-        private Transform _parentTranform;
+        private Transform _folder;
         #endregion
 
         #region LifeCycles
@@ -23,19 +24,19 @@ namespace Clicker
         {
             _enemiesFactory = enemiesFactory;
             _levelConfig = levelConfig;
-            _enemiesList = new List<EnemyBase>();
+            _enemiesList = new List<BaseEnemy>();
         } 
         #endregion
 
         #region Methods
-        public void GeneratePool()
+        public override void GeneratePool()
         {
-            _parentTranform = new GameObject("Enemies").transform;
+            _folder = new GameObject("Meteors").transform;
             _enemiesFactory.GenerateRandomAttributes(_levelConfig, enemiesAtPoolCount);
 
             for (int i = 0; i < enemiesAtPoolCount; i++)
             {
-                var enemy = _enemiesFactory.InstantiateEnemy(_parentTranform);
+                var enemy = _enemiesFactory.InstantiateEnemy(_meteorEnemy, _folder);
                 var attributes = _enemiesFactory.CachedAttributes.Dequeue();
                 enemy.Scale = Mathf.Lerp(_levelConfig.MinScale, _levelConfig.MaxScale, attributes.Size);
                 enemy.Mass = Mathf.Lerp(_levelConfig.MinMass, _levelConfig.MaxMass, attributes.Size);
@@ -45,26 +46,8 @@ namespace Clicker
             }
         }
 
-
-        public void ReturnToPool(EnemyBase enemy)
-        {
-            enemy.CurrentHp = enemy.MaxHp;
-            enemy.gameObject.SetActive(false);
-        }
-
-        public EnemyBase GetEnemyFromPool()
-        {
-            if (_enemiesList.Count == 0)
-                return null;
-
-            foreach (var enemy in _enemiesList)
-            {
-                if (!enemy.gameObject.activeInHierarchy)
-                    return enemy;
-            }
-            return null;
-        }
-
+        public BaseEnemy GetEnemyFromPool() => base.GetEnemyFromPool(_enemiesList);
+    
         public void ResetAll()
         {
             foreach (var enemy in _enemiesList)
@@ -72,7 +55,7 @@ namespace Clicker
 
             _enemiesList.Clear();
             _enemiesFactory.CachedAttributes.Clear();
-            GameObject.Destroy(_parentTranform.gameObject);
+            GameObject.Destroy(_folder.gameObject);
         } 
         #endregion
     }

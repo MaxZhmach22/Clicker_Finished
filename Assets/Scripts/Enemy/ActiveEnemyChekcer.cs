@@ -6,7 +6,7 @@ namespace Clicker
 {
     internal sealed class ActiveEnemyChekcer
     {
-        private List<EnemyBase> _activeEnemies = new List<EnemyBase>();
+        private List<BaseEnemy> _activeEnemies = new List<BaseEnemy>();
         public Action<bool> OnGameOver;
 
         public ActiveEnemyChekcer()
@@ -14,7 +14,7 @@ namespace Clicker
             _activeEnemies.Clear();
         }
 
-        public void AddToActiveEnemyList(EnemyBase enemy)
+        public void AddToActiveEnemyList(BaseEnemy enemy)
         {
             _activeEnemies.Add(enemy);
             CheckCountActiveEnemies();
@@ -30,7 +30,7 @@ namespace Clicker
             }
 
         }
-        public void RemoveFromEnemyList(EnemyBase enemy)
+        public void RemoveFromEnemyList(BaseEnemy enemy)
         {
             _activeEnemies.Remove(enemy);
         }

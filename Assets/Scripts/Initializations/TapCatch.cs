@@ -7,7 +7,7 @@ namespace Clicker
     {
 
         private Touch _touch;
-        public Action<EnemyBase> OnEnemyReturn;
+        public Action<BaseEnemy> OnEnemyReturn;
         public Action<int> OnEnemyTap;
         private int tapInt = 100;
 
@@ -48,7 +48,7 @@ namespace Clicker
             Vector3 touchPoint = _touch.position;
             if(Physics.Raycast(Camera.main.ScreenPointToRay(touchPoint), out RaycastHit hit, 100f))
             {
-                var enemy = hit.collider.GetComponent<EnemyBase>();
+                var enemy = hit.collider.GetComponent<BaseEnemy>();
                 {
                     if (enemy != null)
                     {

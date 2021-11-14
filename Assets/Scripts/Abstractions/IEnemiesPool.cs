@@ -2,6 +2,6 @@
 {
     internal interface IEnemiesPool
     {
-        void ReturnToPool(EnemyBase enemy);
+        void ReturnToPool(BaseEnemy enemy);
     }
 }

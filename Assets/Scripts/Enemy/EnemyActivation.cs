@@ -14,7 +14,7 @@ namespace Clicker
         private Vector3 _playerPosition;
         private Vector3 _direction;
 
-        public Action<EnemyBase> OnEnemyActivation;
+        public Action<BaseEnemy> OnEnemyActivation;
 
         public EnemyActivation(List<EnemyPool> enemyPools, GameSettingsInstaller gameData, Vector3 playerPosition)
         {
@@ -61,7 +61,7 @@ namespace Clicker
 
         }
 
-        public void Activation(EnemyBase enemy)
+        public void Activation(BaseEnemy enemy)
         {
             enemy.gameObject.SetActive(true);
             do

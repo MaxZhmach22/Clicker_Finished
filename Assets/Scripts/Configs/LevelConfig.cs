@@ -17,7 +17,8 @@ namespace Clicker
         [field: SerializeField] public float MinSpeed { get; private set; }
         [field: SerializeField] public float MaxSpeed { get; private set; }
         [field: SerializeField] public float TimeBetweenReSpawn { get; private set; }
+        [field: SerializeField] public float MissleEnemyCountPerLevel { get; private set; }
 
-        
+
     }
 }
