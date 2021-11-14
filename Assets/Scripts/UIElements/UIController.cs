@@ -1,17 +1,14 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace MonsterClicker
 {
-    internal sealed class UIController
+    internal sealed class UIController: IDispose
     {
-        private GameData _gameData;
-        private UIModel _uiModel;
-        private UIView _uiView;
+        private readonly GameData _gameData;
+        private readonly UIModel _uiModel;
+        private readonly UIView _uiView;
+        private readonly ScoreJson _scoreJson;
         private AudioSource _auidoSource;
-        private ScoreJson _scoreJson;
 
         internal ScoreJson ScoreJson { get => _scoreJson; }
 
@@ -88,6 +85,11 @@ namespace MonsterClicker
                 _auidoSource.Stop();
             }
            
+        }
+
+        public void Dispose()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

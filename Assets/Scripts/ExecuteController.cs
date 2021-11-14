@@ -2,45 +2,65 @@
 
 namespace MonsterClicker
 {
-    internal sealed class ExecuteController : IExecute, ILateExecute
+    internal sealed class ExecuteController : IExecute, IDispose
     {
+        #region Fields
+
         private readonly List<IExecute> _executeList;
-        private readonly List<ILateExecute> _lateExecuteList;
+        private readonly List<IDispose> _disposeList;
+
+        #endregion
+
+
+        #region ClassLifeCycles
 
         public ExecuteController()
-        {
+        { 
             _executeList = new List<IExecute>();
-            _lateExecuteList = new List<ILateExecute>();
+            _disposeList = new List<IDispose>();
         }
+           
+        #endregion
+
+
+        #region Methods
 
         public ExecuteController Add(IController controller)
         {
-            if(controller is IExecute execute)
-            {
+            if (controller is IExecute execute)
                 _executeList.Add(execute);
-            }
-            if (controller is ILateExecute lateExecute)
-            {
-                _lateExecuteList.Add(lateExecute);
-            }
-
             return this;
         }
 
+        public ExecuteController Dispose(IController controller)
+        {
+            if (controller is IDispose dispose)
+                _disposeList.Add(dispose);
+            return this;
+        }
+           
+        #endregion
+
+
+        #region IExecute
+
         public void Execute(float deltaTime)
         {
-           for(var index = 0; index<_executeList.Count; ++index)
-            {
+            for (var index = 0; index < _executeList.Count; ++index)
                 _executeList[index].Execute(deltaTime);
-            }
         }
 
-        public void LateExecute(float deltaTime)
+        #endregion
+
+
+        #region IDispose
+
+        public void Dispose()
         {
-            for (var index = 0; index < _lateExecuteList.Count; ++index)
-            {
-                _lateExecuteList[index].LateExecute(deltaTime);
-            }
+            for (var index = 0; index < _disposeList.Count; ++index)
+                _disposeList[index].Dispose();
         }
+
+        #endregion
     }
 }

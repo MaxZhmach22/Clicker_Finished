@@ -5,8 +5,42 @@ using UnityEngine;
 namespace MonsterClicker
 {
     [CreateAssetMenu(fileName = "Game Data", menuName = "Data", order = 1)]
-    public sealed class GameData : ScriptableObject
+    internal sealed class GameData : ScriptableObject
     {
+        #region CameraSettings
+
+        [field: Header("Camera settings:")]
+        [field: SerializeField] public bool IsOrthographic { get; private set; }
+        [field: SerializeField] public float OrthographicSize { get; private set; }
+        [field: SerializeField] public float NearClipPlaneSize { get; private set; }
+        [field: SerializeField] public float FarClipPlaneSize { get; private set; }
+        [field: SerializeField] public Vector3 CameraLocalPosition { get; private set; }
+        [field: SerializeField] public Vector3 CameraRotation { get; private set; }
+
+        #endregion
+
+
+        #region SurfaceSettings
+
+        [field: Header("Surface settings:")]
+        [field: SerializeField] public PrimitiveType Type { get; private set; }
+        [field: SerializeField] public Vector3 Size { get; private set; }
+        [field: SerializeField] public Material SurfaceMaterial { get; private set; }
+        [field: SerializeField] public GameObject GameBorders { get; private set; }
+        [field: SerializeField] public Vector3 BordersRotation { get; private set; }
+
+        #endregion
+
+
+        [field: Header("Palyer settings:")]
+        [field: SerializeField] public FloatingJoystick FloatingJoystick { get; private set; }
+        [field: SerializeField] public float PlayerMovementSpeed { get; private set; }
+
+        [field: Header("Enemies settings:")]
+        [field: SerializeField] public int EnemiesCountInPool { get; private set; }
+
+
+
         [SerializeField] private GameObject _playerPrefab;
         [SerializeField] private float _playerSpeed;
         [SerializeField] private Vector3 planeSize;
@@ -21,6 +55,7 @@ namespace MonsterClicker
         [SerializeField] private AudioClip _onStartBntSound;
         [SerializeField] private AudioClip _backGroundMusic;
         [SerializeField] private bool _soundsOn = true;
+
         private bool _isGameOver;
         public Action OnMuteSounds;
         public Action<bool> OnGameOver;
@@ -32,8 +67,6 @@ namespace MonsterClicker
         public float MaxTimerValue { get => _maxTimeValue; }
         public float MinTimerValue { get => _minTimerValue; }
         public Vector2 LevelBoundaries { get => _levelBoundaries; }
-        public Vector3 PlaneSize { get => planeSize; }
-        public GameObject GameBorders { get => _gameBorders; }
         public float TimeBetweenSpawn { get => _timeDecreaseBetweenSpawn; }
         public AudioClip OnCLickSound { get => _onCLickSound; }
         public AudioClip OnStartBntSound { get => _onStartBntSound;  }

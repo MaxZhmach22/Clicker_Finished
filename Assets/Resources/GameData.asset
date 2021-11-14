@@ -12,6 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62243ffcbe3bea94b878c52cca2b1e2a, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
+  <IsOrthographic>k__BackingField: 1
+  <OrthographicSize>k__BackingField: 8
+  <NearClipPlaneSize>k__BackingField: 0.01
+  <FarClipPlaneSize>k__BackingField: 100
+  <CameraLocalPosition>k__BackingField: {x: 0, y: 0, z: -50}
+  <CameraRotation>k__BackingField: {x: 30, y: 45, z: 0}
+  <Type>k__BackingField: 4
+  <Size>k__BackingField: {x: 10, y: 1, z: 10}
+  <SurfaceMaterial>k__BackingField: {fileID: 2100000, guid: 8aeb1972550555b4683502cd9a5597dd, type: 2}
+  <GameBorders>k__BackingField: {fileID: 7235696938171911349, guid: 438db7f0d725f2f4e9b2e2c98e61a258, type: 3}
+  <BordersRotation>k__BackingField: {x: 0, y: 45, z: 0}
   _playerPrefab: {fileID: 8779992489374834772, guid: d485ed03f9e93494cb9d2565cbf068ef, type: 3}
   _playerSpeed: 5
   planeSize: {x: 10, y: 1, z: 10}

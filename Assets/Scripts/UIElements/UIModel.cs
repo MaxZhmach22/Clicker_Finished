@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace MonsterClicker
 {
-    public class UIModel
+    internal class UIModel
     {
         private GameObject _mainMenu;
         private GameObject _creditsMenu;
@@ -33,7 +33,6 @@ namespace MonsterClicker
             _gameData = gameData;
             FindReferences();
             SetStartPosition();
-            
         }
 
         private void SetStartPosition()

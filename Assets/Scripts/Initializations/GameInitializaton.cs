@@ -1,23 +1,47 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+
 
 namespace MonsterClicker
 {
-    internal class GameInitializaton
+    internal sealed class GameInitializaton : IDispose
     {
-        private GameData _gameData;
-        private Camera _mainCamera;
+        #region Fields
 
-        public GameInitializaton(ExecuteController controller, GameData gameData, Camera mainCamera)
+        private readonly GameData _gameData;
+        private readonly Camera _mainCamera;
+        private readonly UIController _uIController;
+        private readonly IPlayerInitialization _playerInitialization;
+        private readonly InputInitialization _inputInitialization;
+
+        #endregion
+
+
+        #region ClassLifeCycles
+
+        public GameInitializaton(
+            ExecuteController controller,
+            GameData gameData,
+            Camera mainCamera)
         {
             _gameData = gameData;
             _mainCamera = mainCamera;
-            var uiController = new UIController(_gameData);
-            var playerInit = new PlayerInitialization(_gameData);
             new LevelInitialization(_gameData, _mainCamera);
-            var inputInit = new InputInitialization(controller, playerInit.GetPlayer(), _mainCamera, _gameData);
-            new EnemiesController(_gameData, controller, inputInit);
-            inputInit.TapCatch.OnEnemyTap += uiController.ScoreJson.CurrentScore;
+            _uIController = new UIController(_gameData);
+            controller.Add(_uIController);
+            _playerInitialization = new PlayerInitialization(_gameData);
+            _inputInitialization = new InputInitialization(
+                 controller,
+                _playerInitialization.GetPlayer(),
+                _mainCamera);
+            controller.Add(new EnemiesController(
+              _gameData,
+              controller,
+              _inputInitialization.TapCatch,
+              _playerInitialization.GetPlayer()));
         }
+
+        public void Dispose() { } 
+
+        #endregion
     }
 }

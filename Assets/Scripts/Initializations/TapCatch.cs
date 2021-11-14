@@ -1,65 +1,59 @@
 using System;
 using UnityEngine;
 
+
 namespace MonsterClicker
 {
-    internal sealed class TapCatch : IExecute
+    internal sealed class TapCatch : IExecute, ITapCatch
     {
+        #region Fields
 
+        public event Action<EnemyBase> OnEnemyTouch;
         private Touch _touch;
-        public Action<EnemyBase> OnEnemyReturn;
-        public Action<int> OnEnemyTap;
-        private int tapInt = 100;
 
-        void IExecute.Execute(float deltaTime)
+       
+
+        #endregion
+
+
+        #region UnityMethods
+
+        public void Execute(float deltaTime)
         {
             if (Input.touchCount == 1)
-            {
-                
-                _touch = Input.GetTouch(0);
-                switch (_touch.phase)
-                {
-                    case TouchPhase.Ended:
-                        RayHitEnemy();
-                        break;
-                    default:
-                        break;
-                }
-                
-             
-            }
+                ChooseFingerOnScreen(0);
             if (Input.touchCount >= 2)
+                ChooseFingerOnScreen(1);
+        }
+
+        #endregion
+
+
+        #region Methods
+
+        private void ChooseFingerOnScreen(int countOfTouch)
+        {
+            _touch = Input.GetTouch(countOfTouch);
+            switch (_touch.phase)
             {
-                _touch = Input.GetTouch(1);
-                switch (_touch.phase)
-                {
-                    case TouchPhase.Ended:
-                        RayHitEnemy();
-                        break;
-                    default:
-                        break;
-                }
-               
+                case TouchPhase.Ended:
+                    RayHitEnemy();
+                    break;
             }
         }
+
         private void RayHitEnemy()
         {
-
             Vector3 touchPoint = _touch.position;
-            if(Physics.Raycast(Camera.main.ScreenPointToRay(touchPoint), out RaycastHit hit, 100f))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(touchPoint), out RaycastHit hit, 100f))
             {
-                var enemy = hit.collider.GetComponent<EnemyBase>();
+                if (hit.collider.TryGetComponent<EnemyBase>(out var enemy))
                 {
-                    if (enemy != null)
-                    {
-                        enemy.ReturnToPool(enemy.transform);
-                        OnEnemyReturn?.Invoke(enemy);
-                        OnEnemyTap?.Invoke(tapInt);
-                    }
-
+                    enemy.ReturnToPool(enemy.transform);
+                    OnEnemyTouch?.Invoke(enemy);
                 }
             }
- 
-        }
+        } 
+        #endregion
     }
 }
