@@ -1,24 +1,28 @@
 using System;
 using UnityEngine;
+using Zenject;
 
 
 namespace MonsterClicker
 {
-    internal sealed class PlayerMovement : IExecute
+    internal sealed class PlayerMovement : ITickable
     {
         #region Fields
 
-        private FloatingJoystick _joystick;
-        private Vector3 _forward, _right;
-        private Transform _player;
+        private readonly FloatingJoystick _joystick;
         private readonly GameData _gameData;
+        private Vector3 _forward, _right;
+        private Player _player;
 
         #endregion
 
 
         #region ClassLifeCycles
 
-        public PlayerMovement(Transform player, Camera mainCamera, GameData gameData)
+        public PlayerMovement(
+            Player player, 
+            Camera mainCamera, 
+            GameData gameData)
         {
             _gameData = gameData;
             _player = player;
@@ -31,10 +35,10 @@ namespace MonsterClicker
 
         #region UnityMethods
 
-        public void Execute(float deltaTime)
+        public void Tick()
         {
             if (Math.Abs(_joystick.Vertical + _joystick.Horizontal) > 0)
-                Move(deltaTime);
+                    Move(Time.deltaTime);
         }
 
         #endregion

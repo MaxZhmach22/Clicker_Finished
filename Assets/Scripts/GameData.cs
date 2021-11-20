@@ -5,7 +5,7 @@ using UnityEngine;
 namespace MonsterClicker
 {
     [CreateAssetMenu(fileName = "Game Data", menuName = "Data", order = 1)]
-    internal sealed class GameData : ScriptableObject
+    internal class GameData : ScriptableObject
     {
         #region CameraSettings
 
@@ -31,6 +31,14 @@ namespace MonsterClicker
 
         #endregion
 
+        [field: Header("Ui Prefabs:")]
+        [field: SerializeField] public Transform PlaceForUi { get; private set; }
+        [field: SerializeField] public GameUiPresenter GameUiView { get; private set; }
+        [field: SerializeField] public MainMenuPresenter MainMenuPresenter { get; private set; }
+        [field: SerializeField] public LooseMenuPresenter LooseMenuPresenter { get; private set; }
+        [field: SerializeField] public CreditsMenuPresenter CreditsMenuPresenter { get; private set; }
+        [field: SerializeField] public ScoreMenuPresenter ScoreMenuPresenter { get; private set; }
+
 
         [field: Header("Palyer settings:")]
         [field: SerializeField] public FloatingJoystick FloatingJoystick { get; private set; }
@@ -38,6 +46,11 @@ namespace MonsterClicker
 
         [field: Header("Enemies settings:")]
         [field: SerializeField] public int EnemiesCountInPool { get; private set; }
+        [field: SerializeField] public float SpawnDistanceBetweenPlayer { get; private set; }
+
+
+        [field: Header("Score:")]
+        [field: SerializeField] public int BestScoreListCount { get; private set; }
 
 
 
@@ -62,15 +75,7 @@ namespace MonsterClicker
 
 
         public GameObject Player { get => _playerPrefab; }
-        public Material PlaneMaterial { get => planeMaterial; }
-        public float PlayerSpeed { get => _playerSpeed; }
-        public float MaxTimerValue { get => _maxTimeValue; }
-        public float MinTimerValue { get => _minTimerValue; }
-        public Vector2 LevelBoundaries { get => _levelBoundaries; }
-        public float TimeBetweenSpawn { get => _timeDecreaseBetweenSpawn; }
-        public AudioClip OnCLickSound { get => _onCLickSound; }
-        public AudioClip OnStartBntSound { get => _onStartBntSound;  }
-        public AudioClip BackGroundMusic { get => _backGroundMusic;  }
+
         public bool SoundsOn { get => _soundsOn; }
 
         public void SoundsOffOn()

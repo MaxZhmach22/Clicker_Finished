@@ -21,8 +21,8 @@ namespace MonsterClicker
         public void SetCameraSettings(Camera camera, GameData gameData)
         {
             var cameraParent = new GameObject("Camera Parent");
-            cameraParent.transform.rotation = Quaternion.Euler(gameData.CameraRotation);
             camera.transform.SetParent(cameraParent.transform);
+            cameraParent.transform.rotation = Quaternion.Euler(gameData.CameraRotation);
             camera.orthographic = gameData.IsOrthographic;
             camera.orthographicSize = gameData.OrthographicSize;
             camera.nearClipPlane = gameData.NearClipPlaneSize;

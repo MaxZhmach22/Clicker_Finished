@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UniRx;
 
 
 namespace MonsterClicker
@@ -8,16 +8,25 @@ namespace MonsterClicker
     {
         #region Fields
 
-        public event Action<EnemyBase> OnEnemyTouch;
+        private Subject<float> _onSelectableTap = new Subject<float>();
         private Touch _touch;
 
-       
+
+        #endregion
+
+        #region ITapCatch
+
+        public ISubject<float> OnSelectableTap => _onSelectableTap;
 
         #endregion
 
 
         #region UnityMethods
 
+        /// <summary>
+        /// TODO Refactor on ObservableUpdate
+        /// </summary>
+        /// <param name="deltaTime"></param>
         public void Execute(float deltaTime)
         {
             if (Input.touchCount == 1)
@@ -47,10 +56,11 @@ namespace MonsterClicker
             Vector3 touchPoint = _touch.position;
             if (Physics.Raycast(Camera.main.ScreenPointToRay(touchPoint), out RaycastHit hit, 100f))
             {
-                if (hit.collider.TryGetComponent<EnemyBase>(out var enemy))
+                if (hit.collider.TryGetComponent<ISelectable>(out var gameObject))
                 {
-                    enemy.ReturnToPool(enemy.transform);
-                    OnEnemyTouch?.Invoke(enemy);
+                    _onSelectableTap?.OnNext(gameObject.ScorePoints);
+                    if(gameObject is EnemyBase)
+                        gameObject.GetSelected();
                 }
             }
         } 

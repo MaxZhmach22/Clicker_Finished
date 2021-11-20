@@ -1,14 +1,12 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
+
 
 namespace MonsterClicker
 {
-    internal class UIModel
+    internal sealed class UiModel
     {
         private GameObject _mainMenu;
         private GameObject _creditsMenu;
@@ -28,7 +26,7 @@ namespace MonsterClicker
         public GameObject GameBtnMenu { get => _gameBtnMenu; }
         public GameObject LooseMenu { get => _looseMenu; }
 
-        public UIModel(GameData gameData)
+        public UiModel(GameData gameData)
         {
             _gameData = gameData;
             FindReferences();
@@ -63,10 +61,7 @@ namespace MonsterClicker
         public void StartGame()
         {
 
-            foreach (var menu in _menuList)
-            {
-                menu.SetActive(false);
-            }
+            HideMenus();
             GameBtnMenu.SetActive(true);
             GameTime.StopStartGame();
             OnStartSound?.Invoke();
@@ -74,10 +69,7 @@ namespace MonsterClicker
 
         public void ShowScoreMenu()
         {
-            foreach(var menu in _menuList)
-            {
-                menu.SetActive(false);
-            }
+            HideMenus();
             ScoreMenu.SetActive(true);
             OnShowBestScore?.Invoke();
             OnClickSound?.Invoke();
@@ -87,10 +79,7 @@ namespace MonsterClicker
         {
             if (gameOver)
             {
-                foreach (var menu in _menuList)
-                {
-                    menu.SetActive(false);
-                }
+                HideMenus();
                 _looseMenu.SetActive(true);
                 OnClickSound?.Invoke();
                 Time.timeScale = 0;
@@ -100,32 +89,29 @@ namespace MonsterClicker
 
         public void ShowCreditsMenu()
         {
-            foreach (var menu in _menuList)
-            {
-                menu.SetActive(false);
-            }
+            HideMenus();
             CreditsMenu.SetActive(true);
             OnClickSound?.Invoke();
         }
 
         public void ShowStartGameMenu()
         {
-            foreach (var menu in _menuList)
-            {
-                menu.SetActive(false);
-            }
+            HideMenus();
             MainMenu.SetActive(true);
             OnClickSound?.Invoke();
         }
 
         public void OnGameStart()
         {
-            foreach (var menu in _menuList)
-            {
-                menu.SetActive(false);
-            }
+            HideMenus();
             MainMenu.SetActive(true);
             Time.timeScale = 0;
+        }
+
+        private void HideMenus()
+        {
+            foreach (var menu in _menuList)
+                menu.SetActive(false);
         }
 
         public void PauseGame()
@@ -135,9 +121,8 @@ namespace MonsterClicker
             
         }
 
-        public void QuitApp()
-        {
+        public void QuitApp() =>
             Application.Quit();
-        }
+
     }
 }

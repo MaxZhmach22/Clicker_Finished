@@ -2,17 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 namespace MonsterClicker
 {
     internal sealed class ActiveEnemyChekcer
     {
-        private List<EnemyBase> _activeEnemies = new List<EnemyBase>();
-        public Action<bool> OnGameOver;
+        #region Fields
 
-        public ActiveEnemyChekcer()
-        {
-            _activeEnemies.Clear();
-        }
+        public Action<bool> OnGameOver;
+        private List<EnemyBase> _activeEnemies = new List<EnemyBase>();
+
+        #endregion
+
+
+        #region ClassLifeCycles
+
+        public ActiveEnemyChekcer() =>
+            ResetAll();
+
+
+        #endregion
+
+
+        #region Methods
+
+        private void ResetAll() =>
+           _activeEnemies?.Clear();
 
         public void AddToActiveEnemyList(EnemyBase enemy)
         {
@@ -20,19 +35,18 @@ namespace MonsterClicker
             CheckCountActiveEnemies();
         }
 
-
         private void CheckCountActiveEnemies()
         {
-            if (_activeEnemies.Count > 9)
-            {
-                Time.timeScale = 0;
-                OnGameOver?.Invoke(true);
-            }
+            if (_activeEnemies.Count <= 10)
+                return;
 
+            Time.timeScale = 0;
+            OnGameOver?.Invoke(true);
         }
-        public void RemoveFromEnemyList(EnemyBase enemy)
-        {
-            _activeEnemies.Remove(enemy);
-        }
+
+        public void RemoveFromActiveEnemyList(EnemyBase enemy) =>
+            _activeEnemies.Remove(enemy); 
+
+        #endregion
     }
 }

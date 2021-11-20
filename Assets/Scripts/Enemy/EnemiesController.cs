@@ -5,18 +5,20 @@ using UnityEngine;
 
 namespace MonsterClicker
 {
-    internal sealed class EnemiesController : IDispose
+    internal sealed class EnemiesController : IExecute, IDispose
     {
         #region Fields
 
         private readonly GameData _gameData;
-        private readonly EnemyActivation _enemyActivation;
+        private readonly EnemyActivator _enemyActivator;
         private readonly ActiveEnemyChekcer _activeEnemyCheker;
+        private readonly IDifficultyController _difficultyController;
         private readonly ITapCatch _tapCatch;
         private EnemyPool _easyEnemyPool;
         private EnemyPool _middleEnemyPool;
         private EnemyPool _hardEnemy;
         private List<EnemyPool> _enemyPools;
+        private float _timer;
 
         #endregion
 
@@ -25,7 +27,6 @@ namespace MonsterClicker
 
         public EnemiesController(
             GameData gameData,
-            ExecuteController controller,
             ITapCatch tapCatch,
             Transform player)
         {
@@ -33,15 +34,21 @@ namespace MonsterClicker
             _tapCatch = tapCatch;
             EnemiesPoolsInit();
             _activeEnemyCheker = new ActiveEnemyChekcer();
-            _enemyActivation = new EnemyActivation(_enemyPools, _gameData, player.position);
+            _enemyActivator = new EnemyActivator(_enemyPools, _gameData, player.position);
             Subscribe();
-            controller.Add(_enemyActivation);
         }
 
         public void Dispose() =>
             Unsubscribe(); 
 
         #endregion
+
+        public void Execute(float deltaTime)
+        {
+            //_timer += deltaTime;
+            //if(_timer < _)
+            //_enemyActivator
+        }
 
 
         private void ListOfPoolsInit()
@@ -54,8 +61,8 @@ namespace MonsterClicker
 
         private void Subscribe()
         {
-            _enemyActivation.OnEnemyActivation += _activeEnemyCheker.AddToActiveEnemyList;
-            _tapCatch.OnEnemyTouch += _activeEnemyCheker.RemoveFromEnemyList;
+            _enemyActivator.OnEnemyActivation += _activeEnemyCheker.AddToActiveEnemyList;
+            //_tapCatch.OnSelectableTap += _activeEnemyCheker.RemoveFromActiveEnemyList;
             _activeEnemyCheker.OnGameOver += _gameData.GameOver;
         }
 
@@ -69,9 +76,10 @@ namespace MonsterClicker
 
         private void Unsubscribe()
         {
-            _enemyActivation.OnEnemyActivation -= _activeEnemyCheker.AddToActiveEnemyList;
-            _tapCatch.OnEnemyTouch -= _activeEnemyCheker.RemoveFromEnemyList;
+            _enemyActivator.OnEnemyActivation -= _activeEnemyCheker.AddToActiveEnemyList;
+            //_tapCatch.OnSelectableTap -= _activeEnemyCheker.RemoveFromActiveEnemyList;
             _activeEnemyCheker.OnGameOver -= _gameData.GameOver;
         }
+
     }
 }
