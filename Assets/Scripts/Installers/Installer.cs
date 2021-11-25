@@ -73,9 +73,8 @@ namespace MonsterClicker
 
             //InputInit
             Container.Bind<InputInitialization>().AsSingle();
-            Container.Bind<PlayerMovement>().AsSingle();
-            var joystick = Container.InstantiatePrefabForComponent<FloatingJoystick>(_floatingJoystick, _placeForUi);
-            Container.Bind<FloatingJoystick>().FromInstance(joystick).AsSingle();
+            Container.BindInterfacesAndSelfTo<PlayerMovement>().AsSingle();
+            Container.Bind<FloatingJoystick>().FromInstance(_floatingJoystick).AsSingle();
 
             //Score
             Container.Bind<ScoreController>().AsSingle();

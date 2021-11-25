@@ -9,8 +9,8 @@ namespace MonsterClicker
 
         public LevelInitialization(GameData gameData, Camera camera)
         {
-            CreateSurface(gameData);
-            SetCameraSettings(camera, gameData);
+            //CreateSurface(gameData);
+            //SetCameraSettings(camera, gameData);
         }
 
         #endregion

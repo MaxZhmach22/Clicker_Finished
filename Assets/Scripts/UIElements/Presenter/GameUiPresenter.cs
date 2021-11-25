@@ -16,18 +16,22 @@ namespace MonsterClicker
         [SerializeField] private TMP_Text _scoreText;
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private GameObject _confermPanel;
+        [SerializeField] private Slider _slider;
 
         private CompositeDisposable _disposables;
         private IScoreCounter _scoreCounter;
         private ITimeModel _timeModel;
+        private IForcePowerLevel _forcePowerLevel;
 
         [Inject]
         public void Init(
             IScoreCounter scoreCounter,
-            ITimeModel timeModel)
+            ITimeModel timeModel,
+            IForcePowerLevel forcePowerLevel)
         {
             _scoreCounter = scoreCounter;
             _timeModel = timeModel;
+            _forcePowerLevel = forcePowerLevel;
             _disposables = new CompositeDisposable();
         }
 
@@ -50,6 +54,8 @@ namespace MonsterClicker
                 _confermPanel.SetActive(false);
                 Time.timeScale =0;
             }).AddTo(_disposables);
+
+            _forcePowerLevel.MoveForcePower.Subscribe(value => _slider.value = value).AddTo(_disposables);
 
             InitTimer();
             _scoreCounter.CurrentScore.SubscribeToText(_scoreText).AddTo(_disposables);

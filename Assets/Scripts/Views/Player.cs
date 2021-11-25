@@ -8,13 +8,22 @@ namespace MonsterClicker
     {
         #region Fields
 
-
+        [field: SerializeField] public float Force { get; private set; }
+        [field: SerializeField] public Transform Shield { get; private set; }
+        [field: SerializeField] public Transform LeftSword { get; private set; }
+        [field: SerializeField] public Transform RigthSword { get; private set; }
         private GameState _state;
         private GameStateFactory _gameStateFactory;
+        private Rigidbody _rigidBody;
+        private MeshRenderer _sphereMeshRenderer;
+        
+        
+
 
         public GameStates CurrentGameState { get; private set; }
-
-
+        public Rigidbody RigidBody => _rigidBody;
+        public MeshRenderer SphereMeshRenderer => _sphereMeshRenderer;
+        public bool ArmorActive { get; set; }
         #endregion
 
 
@@ -24,6 +33,8 @@ namespace MonsterClicker
         public void Init(GameStateFactory gameStateFactory)
         {
             _gameStateFactory = gameStateFactory;
+            _rigidBody = GetComponent<Rigidbody>();
+            _sphereMeshRenderer = GetComponent<MeshRenderer>();
         }
 
         public void Start() =>
